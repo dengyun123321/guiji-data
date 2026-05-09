@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>联达信财税智能工作台</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #eef2f9; margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 32px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .sync-panel button { background: #1d6f9c; color: white; border: none; padding: 8px 20px; border-radius: 40px; cursor: pointer; margin-left: 10px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .kpi-card { background: #f8fafc; border-radius: 24px; padding: 20px; text-align: center; }
+        pre { background: #f0f2f5; padding: 15px; border-radius: 12px; overflow-x: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>联达信 · 智能财税中枢</h1>
+        <div class="sync-panel">
+            <button id="loadBtn">📥 从GitHub加载数据</button>
+            <button id="saveBtn" style="background:#2b7e3a;">💾 保存数据到GitHub</button>
+        </div>
+    </div>
+    <div id="statusMsg" style="margin-bottom:20px; padding:10px; background:#e6f7ff; border-radius:12px;"></div>
+    <div class="kpi-grid">
+        <div class="kpi-card"><h3>📊 人均代账效能</h3><div id="perCapita" style="font-size:32px; font-weight:bold;">-</div></div>
+        <div class="kpi-card"><h3>💰 运营人效成本</h3><div id="costDrop" style="font-size:32px; font-weight:bold;">-</div></div>
+        <div class="kpi-card"><h3>🤝 客户续签率</h3><div id="renewRate" style="font-size:32px; font-weight:bold;">-</div></div>
+    </div>
+    <div style="margin-top:30px; border-top:1px solid #e2e8f0; padding-top:20px;">
+        <h3>📄 实时数据 (data.json)</h3>
+        <pre id="jsonViewer">{}</pre>
+    </div>
+</div>
+<script>
+    // ================= 请修改这里的配置 =================
+    const GITHUB_CONFIG = {
+        owner: 'YOUR_GITHUB_USERNAME',      // 你的GitHub用户名
+        repo: 'liandaxin-data',             // 数据仓库名称（等一下会创建）
+        token: 'YOUR_PERSONAL_ACCESS_TOKEN', // 上一步生成的Token
+        path: 'data.json'                   // 数据文件名
+    };
+    // =================================================
+
+    let currentData = {};
+
+    // 显示消息
+    function showMessage(msg, isError = false) {
+        const el = document.getElementById('statusMsg');
+        el.innerHTML = msg;
+        el.style.background = isError ? '#fff1f0' : '#e6f7ff';
+        el.style.borderLeft = `4px solid ${isError ? '#ff4d4f' : '#1890ff'}`;
+        setTimeout(() => { if(el.innerHTML === msg) el.innerHTML = ''; }, 3000);
+    }
+
+    // 从 GitHub 加载 data.json 文件的内容和 SHA
+    async function loadFromGitHub() {
+        showMessage('⏳ 正在从 GitHub 加载数据...');
+        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`;
+        try {
+            const response = await fetch(url, {
+                headers: { 'Authorization': `token ${GITHUB_CONFIG.token}` }
+            });
+            if (!response.ok) {
+                if (response.status === 404) {
+                    showMessage('⚠️ 数据文件 data.json 不存在，将创建新文件。', false);
+                    currentData = {};
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } else {
+                const data = await response.json();
+                const content = atob(data.content);
+                currentData = JSON.parse(content);
+                window.currentSha = data.sha;
+                showMessage('✅ 数据加载成功！', false);
+            }
+            updateUI();
+        } catch (error) {
+            console.error(error);
+            showMessage(`❌ 加载失败: ${error.message}`, true);
+        }
+    }
+
+    // 保存数据到 GitHub
+    async function saveToGitHub() {
+        if (!window.currentSha) {
+            showMessage('⚠️ 请先点击"从GitHub加载数据"后再保存', true);
+            return;
+        }
+        showMessage('⏳ 正在保存数据到 GitHub...');
+        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`;
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
+        const body = {
+            message: "更新财税数据",
+            content: content,
+            sha: window.currentSha,
+            branch: "main"
+        };
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${GITHUB_CONFIG.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const result = await response.json();
+            window.currentSha = result.content.sha;
+            showMessage('✅ 数据保存成功！', false);
+            updateUI();
+        } catch (error) {
+            console.error(error);
+            showMessage(`❌ 保存失败: ${error.message}`, true);
+        }
+    }
+
+    // 更新界面：示例修改 KPI 和 JSON 视图
+    function updateUI() {
+        document.getElementById('perCapita').innerText = currentData.perCapita || '312';
+        document.getElementById('costDrop').innerText = (currentData.costDrop || '-37') + '%';
+        document.getElementById('renewRate').innerText = (currentData.renewRate || '94.2') + '%';
+        document.getElementById('jsonViewer').innerText = JSON.stringify(currentData, null, 2);
+    }
+
+    // 快捷设置示例值（仅供测试，实际删除）
+    document.getElementById('perCapita').addEventListener('click', () => {
+        currentData.perCapita = (parseInt(currentData.perCapita || 312) + 1).toString();
+        updateUI();
+    });
+
+    // 绑定按钮事件
+    document.getElementById('loadBtn').addEventListener('click', loadFromGitHub);
+    document.getElementById('saveBtn').addEventListener('click', saveToGitHub);
+
+    // 页面启动时自动加载
+    loadFromGitHub();
+</script>
+</body>
+</html>
