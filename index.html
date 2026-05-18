@@ -82,10 +82,10 @@
 <script>
     // ==================== GitHub 配置（请修改为您的真实信息） ====================
     const GITHUB_CONFIG = {
-        owner: 'dengyun123321',          // 例如 'dengyun123321'
-        repo: 'guiji-data',                // 用于存储平台数据的仓库（需提前创建，公开或私有均可，但前端需有token）
-        token: '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',             // 具有 repo 权限的 Personal Access Token
-        path: 'platform_data.json'         // 存储所有数据的文件名
+        owner: 'dengyun123321',          // 您的GitHub用户名
+        repo: 'guiji-data',              // 用于存储平台数据的仓库名（需提前创建）
+        token: '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', // 您的Personal Access Token
+        path: 'platform_data.json'       // 存储所有数据的文件名
     };
     // =========================================================================
     
@@ -311,7 +311,7 @@
             <div style="border-bottom:1px solid #eee; padding:12px;"><b>${escapeHtml(app.name)}</b> (${app.phone})<br>简介: ${escapeHtml(app.reason)}<br>
             <button class="btn-sm" onclick="approveApply('${app.id}')">通过</button> <button class="btn-sm" onclick="rejectApply('${app.id}')">拒绝</button></div>
         `).join('');
-        html+=`</div><div class="card"><div class="card-header">📊 系统用户列表</div><table style="width:100%"><thead><tr><th>用户名</th><th>角色</th><th>手机号</th></tr></thead><tbody>` + platformData.users.map(u => `<tr><td>${escapeHtml(u.name)}</td><td>${u.role}</td><td>${u.phone||''}</td></tr>`).join('') + `</tbody></table></div>`;
+        html+=`</div><div class="card"><div class="card-header">📊 系统用户列表</div><table style="width:100%"><thead><tr><th>用户名</th><th>角色</th><th>手机号</th></tr></thead><tbody>` + platformData.users.map(u => `<tr><td>${escapeHtml(u.name)}</td><td>${u.role}</td><td>${u.phone||''}</td>`).join('') + `</tbody></table></div>`;
         document.getElementById('pageContainer').innerHTML = html;
     }
     
@@ -423,15 +423,19 @@
         switchPage(currentPage);
     }
     
-    // 初始化
+    // 初始化（修复判断逻辑）
     async function init() {
-        if (GITHUB_CONFIG.owner === 'dengyun123321' || GITHUB_CONFIG.token === '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') {
+        // 判断是否已配置真实信息（owner 和 token 不能是默认占位符且不能为空）
+        const isConfigured = GITHUB_CONFIG.owner && GITHUB_CONFIG.owner !== '你的GitHub用户名' &&
+                              GITHUB_CONFIG.token && GITHUB_CONFIG.token !== '你的私人令牌' &&
+                              GITHUB_CONFIG.repo && GITHUB_CONFIG.repo !== '';
+        if (isConfigured) {
+            await loadFromGitHub();
+            updateUIByRole();
+        } else {
             showToast("请先在代码中配置 GitHub 用户名、仓库名和 Token", true);
             initDefaultData();
             renderAll();
-            updateUIByRole();
-        } else {
-            await loadFromGitHub();
             updateUIByRole();
         }
     }
