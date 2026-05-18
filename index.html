@@ -3,538 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>联达信 | 智能财税 · 业财税一体化平台</title>
+    <title>联达信 · 财税同行协作平台 | 发布需求 · 对接资源</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #ffffff;
-            color: #1e293b;
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
-        /* 滚动平滑 */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* 容器 */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* 按钮 */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.95rem;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4fa; color: #1e293b; }
+        /* 布局 */
+        .app { display: flex; min-height: 100vh; }
+        /* 侧边栏菜单 */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #0a2537 0%, #06212e 100%);
+            color: #e2f0ff;
+            flex-shrink: 0;
+            padding: 24px 20px;
             transition: all 0.2s;
+        }
+        .logo { font-size: 1.6rem; font-weight: 800; margin-bottom: 32px; background: linear-gradient(120deg, #FFF, #7fc9ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin: 6px 0;
+            border-radius: 16px;
             cursor: pointer;
-            border: none;
-            text-decoration: none;
-        }
-        .btn-primary {
-            background: #1e6f9c;
-            color: white;
-            box-shadow: 0 4px 8px rgba(30,111,156,0.2);
-        }
-        .btn-primary:hover {
-            background: #0f5a82;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(30,111,156,0.3);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #cbd5e1;
-            color: #1e293b;
-        }
-        .btn-outline:hover {
-            border-color: #1e6f9c;
-            color: #1e6f9c;
-            background: #f8fafc;
-        }
-
-        /* 头部导航 */
-        .navbar {
-            position: sticky;
-            top: 0;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(12px);
-            z-index: 100;
-            border-bottom: 1px solid #eef2f6;
-            padding: 16px 0;
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #0f2f44, #1e6f9c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
-        }
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: #334155;
             font-weight: 500;
             transition: 0.2s;
         }
-        .nav-links a:hover {
-            color: #1e6f9c;
-        }
-        .mobile-menu {
-            display: none;
-            font-size: 1.6rem;
-            cursor: pointer;
-        }
-
-        /* Hero 区域 */
-        .hero {
-            padding: 80px 0 60px;
-            background: linear-gradient(145deg, #f9fbfd 0%, #ffffff 100%);
-        }
-        .hero-grid {
-            display: flex;
-            align-items: center;
-            gap: 48px;
-            flex-wrap: wrap;
-        }
-        .hero-content {
-            flex: 1;
-        }
-        .hero-badge {
-            background: #eef6fc;
-            color: #1e6f9c;
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-        .hero-content h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 24px;
-            color: #0f2f44;
-        }
-        .hero-content p {
-            font-size: 1.1rem;
-            color: #475569;
-            margin-bottom: 32px;
-            max-width: 550px;
-        }
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .hero-image {
-            flex: 1;
-            text-align: center;
-        }
-        .hero-image img {
-            max-width: 100%;
-            border-radius: 32px;
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
-        }
-        /* 装饰占位 */
-        .placeholder-img {
-            background: linear-gradient(145deg, #d9e6f2, #bdd4e8);
-            border-radius: 32px;
-            height: 380px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1e6f9c;
-            font-size: 1.2rem;
-        }
-
-        /* 客户标识 */
-        .trust-section {
-            padding: 40px 0;
-            text-align: center;
-            border-top: 1px solid #eef2f6;
-            border-bottom: 1px solid #eef2f6;
-            background: #fafcff;
-        }
-        .trust-logos {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 48px;
-            margin-top: 24px;
-            opacity: 0.7;
-            font-weight: 500;
-            color: #5a6e85;
-        }
-
-        /* 功能特性 */
-        .features {
-            padding: 80px 0;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .section-desc {
-            text-align: center;
-            color: #5c6f87;
-            max-width: 700px;
-            margin: 0 auto 48px;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-        .feature-card {
-            background: white;
-            border-radius: 32px;
-            padding: 32px 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            border: 1px solid #eef2f6;
-            transition: 0.2s;
-        }
-        .feature-card:hover {
-            transform: translateY(-6px);
-            border-color: #cbdde9;
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            color: #1e6f9c;
-            margin-bottom: 20px;
-        }
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-        }
-        .feature-card p {
-            color: #5c6f87;
-            line-height: 1.5;
-        }
-
-        /* 关于我们 */
-        .about {
-            background: #f8fafc;
-            padding: 80px 0;
-        }
-        .about-grid {
-            display: flex;
-            gap: 48px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .about-content {
-            flex: 1;
-        }
-        .about-content h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        .stats {
-            display: flex;
-            gap: 32px;
-            margin-top: 32px;
-        }
-        .stat-item h4 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #1e6f9c;
-        }
-
-        /* CTA */
-        .cta {
-            background: linear-gradient(115deg, #0f2f44, #1a5270);
-            color: white;
-            padding: 70px 0;
-            text-align: center;
-        }
-        .cta h2 {
-            font-size: 2rem;
-            margin-bottom: 16px;
-        }
-        .cta .btn-primary {
-            background: white;
-            color: #1e6f9c;
-            box-shadow: none;
-            margin-top: 24px;
-        }
-        .cta .btn-primary:hover {
-            background: #f0f6fa;
-        }
-
-        /* 页脚 */
-        .footer {
-            background: #0f2f44;
-            color: #cbd5e6;
-            padding: 60px 0 30px;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .footer-col h4 {
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        .footer-col p, .footer-col a {
-            color: #b0c4de;
-            text-decoration: none;
-            line-height: 1.8;
-            font-size: 0.9rem;
-        }
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid #2a4e69;
-            padding-top: 30px;
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            .mobile-menu {
-                display: block;
-            }
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            .hero-grid {
-                flex-direction: column;
-            }
-            .container {
-                padding: 0 20px;
-            }
-        }
+        .nav-item:hover, .nav-item.active { background: rgba(57,138,186,0.3); color: white; }
+        /* 主内容区 */
+        .main-content { flex: 1; padding: 24px 32px; overflow-y: auto; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+        .user-info { background: white; padding: 8px 20px; border-radius: 40px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .btn-sm { background: #eef2f9; border: none; padding: 6px 16px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; }
+        .btn-primary { background: #1d6f9c; color: white; }
+        .btn-outline { background: transparent; border: 1px solid #cbd5e1; }
+        .card { background: white; border-radius: 28px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid #e9eff5; }
+        .card-header { font-weight: 700; font-size: 1.2rem; border-left: 4px solid #1d6f9c; padding-left: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .badge { background: #e6f7ff; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; }
+        .demand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 20px; }
+        .demand-card { background: #fff; border-radius: 24px; padding: 16px; border: 1px solid #eef2f8; transition: 0.2s; }
+        .demand-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000; }
+        .modal-content { background:white; border-radius:32px; padding:24px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size:0.8rem; margin-bottom:6px; font-weight:500; }
+        .form-group input, .form-group select, .form-group textarea { width:100%; padding:10px; border-radius:20px; border:1px solid #cfdfed; }
+        .toast { position: fixed; bottom:20px; right:20px; background:#0f2f3f; color:white; padding:8px 18px; border-radius:40px; font-size:0.75rem; z-index:1100; opacity:0; transition:0.2s; }
+        @media (max-width:800px) { .sidebar { width: 80px; } .sidebar span:not(i) { display: none; } }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <div class="navbar">
-        <div class="container nav-container">
-            <div class="logo">联达信</div>
-            <div class="nav-links">
-                <a href="#">首页</a>
-                <a href="#features">产品</a>
-                <a href="#about">关于</a>
-                <a href="#contact">联系</a>
-                <a href="/console" class="btn btn-outline" style="padding:8px 20px;">登录工作台</a>
-            </div>
-            <div class="mobile-menu">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
+<div class="app">
+    <div class="sidebar">
+        <div class="logo">联达信·同行协作</div>
+        <div class="nav-item" data-page="demands"><i class="fas fa-list"></i><span>需求大厅</span></div>
+        <div class="nav-item" data-page="publish"><i class="fas fa-plus-circle"></i><span>发布需求</span></div>
+        <div class="nav-item" data-page="myOrders"><i class="fas fa-clipboard-list"></i><span>我的订单</span></div>
+        <div class="nav-item" data-page="applyService"><i class="fas fa-store"></i><span>服务商入驻</span></div>
+        <div class="nav-item" data-page="admin" id="adminMenu" style="display:none;"><i class="fas fa-user-shield"></i><span>管理后台</span></div>
     </div>
-
-    <!-- Hero 区域 -->
-    <section class="hero">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <div class="hero-badge">AI驱动 · 业财税一体化</div>
-                <h1>让记账更智能<br>让财税更安心</h1>
-                <p>联达信智能财税平台，为代理记账公司及中小企业提供一站式财税解决方案。AI自动记账、合同生命周期管理、多账簿支持，助力财税数字化转型。</p>
-                <div class="hero-buttons">
-                    <a href="/console" class="btn btn-primary">免费试用 <i class="fas fa-arrow-right"></i></a>
-                    <a href="#features" class="btn btn-outline">了解更多</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="placeholder-img">
-                    <i class="fas fa-chart-line" style="font-size: 4rem; opacity: 0.7;"></i>
-                </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <div><h2 id="pageTitle">需求大厅</h2></div>
+            <div class="user-info" id="userInfoArea">
+                <span id="userRoleBadge">游客</span>
+                <button class="btn-sm" id="loginBtn">登录/注册</button>
+                <button class="btn-sm" id="logoutBtn" style="display:none;">退出</button>
             </div>
         </div>
-    </section>
-
-    <!-- 信赖标识 -->
-    <div class="trust-section">
-        <div class="container">
-            <div style="color:#5f7d9c; font-size:0.8rem; letter-spacing:1px;">已服务全国超过300+代账机构及中小企业</div>
-            <div class="trust-logos">
-                <span>✅ 智能记账</span>
-                <span>✅ 全税种申报</span>
-                <span>✅ 合同催收</span>
-                <span>✅ 多客户账簿</span>
-                <span>✅ 资产负债表</span>
-            </div>
-        </div>
+        <div id="pageContainer"></div>
     </div>
+</div>
 
-    <!-- 核心功能 -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2 class="section-title">智能财税 · 极致体验</h2>
-            <p class="section-desc">从凭证录入到财务报表，全流程自动化，让您的团队效率提升50%以上。</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                    <h3>AI智慧记账</h3>
-                    <p>自动识别银行流水，智能生成凭证，科目余额实时计算，减少人工录入错误。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-file-contract"></i></div>
-                    <h3>合同生命周期管理</h3>
-                    <p>客户合同到期自动预警，一键催收，记录催收日志，降低坏账风险。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
-                    <h3>多维度财务报表</h3>
-                    <p>利润表、资产负债表、总账明细账自动生成，支持打印和导出。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-building"></i></div>
-                    <h3>多客户独立账簿</h3>
-                    <p>为每个客户建立独立账簿，数据隔离，切换自如，满足代账机构需求。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                    <h3>云端数据同步</h3>
-                    <p>支持GitHub私有仓库备份，数据永不丢失，多成员实时协作。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-print"></i></div>
-                    <h3>专业凭证打印</h3>
-                    <p>记账凭证支持纸质版打印，符合会计规范，一键生成纸质档案。</p>
+<div id="globalModal" class="modal"><div class="modal-content"><div id="modalBody"></div><div class="flex-between" style="margin-top:20px;"><button id="modalCancel">取消</button><button id="modalConfirm" class="btn-sm btn-primary">确认</button></div></div></div>
+<div id="toastMsg" class="toast"></div>
+
+<script>
+    // ---------------------------- 模拟数据库 ----------------------------
+    let demands = [  // 需求列表
+        { id: "d1", title: "深圳龙华公司代理记账", description: "需要一般纳税人代账，每月票据整理+纳税申报", budget: 2000, region: "深圳", type: "代理记账", publisherId: "u2", publisherName: "李会计", publishTime: "2025-05-15", status: "active", acceptedBy: null },
+        { id: "d2", title: "东莞出口退税代办", description: "急需办理出口退税，有经验的服务商请联系", budget: 5000, region: "东莞", type: "出口退税", publisherId: "u3", publisherName: "王总", publishTime: "2025-05-16", status: "active", acceptedBy: null },
+        { id: "d3", title: "广州工商注销加急", description: "公司营业执照注销，要求两周内办结", budget: 1500, region: "广州", type: "工商服务", publisherId: "u4", publisherName: "陈经理", publishTime: "2025-05-14", status: "active", acceptedBy: null }
+    ];
+    let users = [
+        { id: "admin", name: "平台管理员", role: "admin", phone: "", realName: "超级管理员" },
+        { id: "fuwu1", name: "深圳安信财税", role: "service", phone: "13800138001", realName: "安信财税", approved: true, depositPaid: false },
+        { id: "user1", name: "张会计", role: "user", phone: "13800138002", realName: "张明", verified: true },
+        { id: "guest", name: "游客", role: "guest", verified: false }
+    ];
+    let orders = []; // 接单记录 { demandId, serviceId, serviceName, status, createTime }
+    let serviceApplications = []; // 服务商入驻申请 { name, contact, reason, status }
+    
+    let currentUser = { id: "guest", name: "游客", role: "guest", verified: false }; // 当前登录用户
+
+    // 辅助函数
+    function showToast(msg, isErr=false) { let t=document.getElementById('toastMsg'); t.innerText=msg; t.style.background=isErr?'#b91c1c':'#0f2f3f'; t.style.opacity='1'; setTimeout(()=>t.style.opacity='0',2500); }
+    function saveToLocal() { localStorage.setItem('liandaxin_collab', JSON.stringify({demands, users, orders, serviceApplications})); }
+    function loadFromLocal() {
+        let d = localStorage.getItem('liandaxin_collab');
+        if(d) { let data=JSON.parse(d); demands=data.demands; users=data.users; orders=data.orders; serviceApplications=data.serviceApplications; }
+        else { saveToLocal(); }
+    }
+    loadFromLocal();
+
+    // 权限检查
+    function canPublish() { return currentUser.role === 'user' || currentUser.role === 'service' || currentUser.role === 'admin'; }
+    function canAccept() { return currentUser.role === 'user' || currentUser.role === 'service'; }
+    function isAdmin() { return currentUser.role === 'admin'; }
+
+    // 渲染页面
+    function renderDemands() {
+        let html = `<div class="card"><div class="card-header">📋 最新需求 <div><select id="filterType"><option value="">全部类型</option><option>代理记账</option><option>出口退税</option><option>工商服务</option></select><select id="filterRegion"><option value="">全部地区</option><option>深圳</option><option>广州</option><option>东莞</option></select></div></div><div class="demand-grid" id="demandsList"></div></div>`;
+        document.getElementById('pageContainer').innerHTML = html;
+        filterDemands();
+    }
+    function filterDemands() {
+        let type = document.getElementById('filterType')?.value || '';
+        let region = document.getElementById('filterRegion')?.value || '';
+        let filtered = demands.filter(d => d.status === 'active');
+        if(type) filtered = filtered.filter(d => d.type === type);
+        if(region) filtered = filtered.filter(d => d.region === region);
+        let container = document.getElementById('demandsList');
+        if(!container) return;
+        if(filtered.length===0) { container.innerHTML = '<div>暂无需求</div>'; return; }
+        container.innerHTML = filtered.map(d => `
+            <div class="demand-card">
+                <div style="display:flex; justify-content:space-between;"><strong>${escapeHtml(d.title)}</strong><span class="badge">${d.region}</span></div>
+                <div style="font-size:0.8rem; color:#5c6f87; margin:8px 0;">${escapeHtml(d.description)}</div>
+                <div>预算: ¥${d.budget} | 类型: ${d.type}</div>
+                <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>发布: ${d.publishTime}</span>
+                    ${canAccept() && d.acceptedBy === null ? `<button class="btn-sm btn-primary" onclick="acceptDemand('${d.id}')">我要接单</button>` : (d.acceptedBy ? `<span class="badge">已接单</span>` : `<span class="badge">游客不可接单</span>`)}
                 </div>
             </div>
-        </div>
-    </section>
+        `).join('');
+    }
+    window.acceptDemand = function(demandId) {
+        if(!canAccept()) { showToast("请先登录并完成实名认证或入驻成为服务商", true); return; }
+        let demand = demands.find(d=>d.id===demandId);
+        if(!demand || demand.acceptedBy) { showToast("该需求已被接单", true); return; }
+        demand.acceptedBy = currentUser.id;
+        orders.push({ demandId, serviceId: currentUser.id, serviceName: currentUser.name, status: "已接单", createTime: new Date().toISOString() });
+        saveToLocal();
+        showToast("接单成功，请等待发布方联系");
+        renderDemands();
+        renderMyOrders();
+    };
+    function renderPublish() {
+        if(!canPublish()) { document.getElementById('pageContainer').innerHTML = `<div class="card"><p>您无权发布需求，请先登录并完成实名认证。</p></div>`; return; }
+        let html = `<div class="card"><div class="card-header">✍️ 发布新需求</div>
+            <div class="form-group"><label>需求标题</label><input id="pubTitle" placeholder="例：寻找深圳代理记账合作"></div>
+            <div class="form-group"><label>需求描述</label><textarea id="pubDesc" rows="3" placeholder="详细说明工作内容、要求等"></textarea></div>
+            <div class="form-group"><label>预算(元)</label><input type="number" id="pubBudget" placeholder="0"></div>
+            <div class="form-group"><label>所在地区</label><select id="pubRegion"><option>深圳</option><option>广州</option><option>东莞</option></select></div>
+            <div class="form-group"><label>服务类型</label><select id="pubType"><option>代理记账</option><option>出口退税</option><option>工商服务</option></select></div>
+            <button class="btn-sm btn-primary" id="submitDemandBtn">提交需求</button>
+        </div>`;
+        document.getElementById('pageContainer').innerHTML = html;
+        document.getElementById('submitDemandBtn').onclick = () => {
+            let title = document.getElementById('pubTitle').value, desc = document.getElementById('pubDesc').value, budget = parseFloat(document.getElementById('pubBudget').value);
+            let region = document.getElementById('pubRegion').value, type = document.getElementById('pubType').value;
+            if(!title || !desc || isNaN(budget)) { showToast("请完整填写信息", true); return; }
+            let newId = "d" + Date.now();
+            demands.unshift({ id: newId, title, description: desc, budget, region, type, publisherId: currentUser.id, publisherName: currentUser.name, publishTime: new Date().toISOString().slice(0,10), status: "active", acceptedBy: null });
+            saveToLocal();
+            showToast("需求发布成功");
+            renderDemands();
+            switchPage('demands');
+        };
+    }
+    function renderMyOrders() {
+        let myOrdersList = orders.filter(o => o.serviceId === currentUser.id);
+        let myPublish = demands.filter(d => d.publisherId === currentUser.id);
+        let html = `<div class="card"><div class="card-header">📦 我接单的需求</div>`;
+        if(myOrdersList.length===0) html+=`<p>暂无接单记录</p>`;
+        else html+= `<table style="width:100%"><tr><th>需求标题</th><th>预算</th><th>状态</th></tr>` + myOrdersList.map(o => { let d = demands.find(dm=>dm.id===o.demandId); return `<tr><td>${d?.title||''}</td><td>${d?.budget||0}</td><td>${o.status}</td></tr>`; }).join('') + `</table>`;
+        html+=`</div><div class="card"><div class="card-header">📄 我发布的需求</div>`;
+        if(myPublish.length===0) html+=`<p>暂无发布</p>`;
+        else html+= `<table style="width:100%"><tr><th>标题</th><th>预算</th><th>状态</th></tr>` + myPublish.map(d => `<tr><td>${d.title}</td><td>${d.budget}</td><td>${d.acceptedBy ? '已接单' : '进行中'}</td></tr>`).join('') + `</table>`;
+        html+=`</div>`;
+        document.getElementById('pageContainer').innerHTML = html;
+    }
+    function renderApplyService() {
+        if(currentUser.role === 'service') { document.getElementById('pageContainer').innerHTML = `<div class="card"><p>您已经是服务商，无需重复申请。</p></div>`; return; }
+        let html = `<div class="card"><div class="card-header">🏢 申请成为服务商</div><div class="form-group"><label>机构/个人名称</label><input id="appName"></div><div class="form-group"><label>联系电话</label><input id="appPhone"></div><div class="form-group"><label>简介/优势</label><textarea id="appReason" rows="3"></textarea></div><button class="btn-sm btn-primary" id="submitApplyBtn">提交申请</button></div>`;
+        document.getElementById('pageContainer').innerHTML = html;
+        document.getElementById('submitApplyBtn').onclick = () => {
+            let name = document.getElementById('appName').value, phone = document.getElementById('appPhone').value, reason = document.getElementById('appReason').value;
+            if(!name || !phone) { showToast("请填写完整", true); return; }
+            serviceApplications.push({ name, phone, reason, userId: currentUser.id, status: "pending" });
+            saveToLocal();
+            showToast("申请已提交，等待管理员审核");
+            switchPage('demands');
+        };
+    }
+    function renderAdmin() {
+        if(!isAdmin()) { document.getElementById('pageContainer').innerHTML = `<div class="card"><p>无权限访问</p></div>`; return; }
+        let pendingApps = serviceApplications.filter(a=>a.status==='pending');
+        let allUsers = users.filter(u=>u.id!=='admin');
+        let html = `<div class="card"><div class="card-header">👥 服务商入驻审核</div>`;
+        if(pendingApps.length===0) html+=`<p>暂无待审核申请</p>`;
+        else html+= pendingApps.map((app,idx)=>`
+            <div style="border-bottom:1px solid #eee; padding:12px;"><b>${app.name}</b> (${app.phone})<br>简介: ${app.reason}<br>
+            <button class="btn-sm" onclick="approveApply(${idx})">通过</button> <button class="btn-sm" onclick="rejectApply(${idx})">拒绝</button></div>
+        `).join('');
+        html+=`</div><div class="card"><div class="card-header">📋 系统用户列表</div><table style="width:100%"><tr><th>用户名</th><th>角色</th></tr>`+allUsers.map(u=>`<tr><td>${u.name}</td><td>${u.role}</td></tr>`).join('')+`</table></div>`;
+        document.getElementById('pageContainer').innerHTML = html;
+    }
+    window.approveApply = function(idx) {
+        let app = serviceApplications[idx];
+        if(!app) return;
+        app.status = 'approved';
+        // 将用户升级为服务商
+        let user = users.find(u=>u.id===app.userId);
+        if(user) { user.role = 'service'; user.realName = app.name; }
+        saveToLocal();
+        showToast("审核通过，用户已升级为服务商");
+        renderAdmin();
+    };
+    window.rejectApply = function(idx) { serviceApplications.splice(idx,1); saveToLocal(); renderAdmin(); };
 
-    <!-- 关于我们 -->
-    <section class="about" id="about">
-        <div class="container about-grid">
-            <div class="about-content">
-                <h2>关于联达信</h2>
-                <p>联达信财税代理有限公司成立于2015年，专注于为企业提供智能财税解决方案。我们拥有资深财税专家和技术团队，致力于用科技重塑传统记账模式，让财税工作更高效、更透明。</p>
-                <div class="stats">
-                    <div class="stat-item">
-                        <h4>300+</h4>
-                        <p>服务客户</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>50%</h4>
-                        <p>效率提升</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>99.9%</h4>
-                        <p>数据准确率</p>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="placeholder-img" style="height: 280px;">
-                    <i class="fas fa-chalkboard-user" style="font-size: 3rem;"></i>
-                </div>
-            </div>
-        </div>
-    </section>
+    // 登录模拟
+    function showLoginModal() {
+        let modal = document.getElementById('globalModal');
+        document.getElementById('modalBody').innerHTML = `
+            <h3>登录/注册</h3>
+            <div class="form-group"><label>选择身份</label><select id="loginRoleSelect"><option value="user">实名用户</option><option value="service">服务商</option><option value="admin">管理员</option></select></div>
+            <div class="form-group"><label>手机号/账号</label><input id="loginPhone" placeholder="演示账号: 13800138001"></div>
+            <div class="form-group"><label>验证码(模拟)</label><input id="loginCode" placeholder="输入123456"></div>
+            <p style="font-size:0.7rem; color:#aaa;">演示账号：管理员admin/任意密码；服务商：13800138001；普通用户：13800138002</p>
+        `;
+        let confirm = document.getElementById('modalConfirm');
+        confirm.onclick = () => {
+            let role = document.getElementById('loginRoleSelect').value;
+            let phone = document.getElementById('loginPhone').value;
+            let code = document.getElementById('loginCode').value;
+            if(code !== '123456') { showToast("验证码错误", true); return; }
+            if(role === 'admin') { currentUser = users.find(u=>u.role==='admin'); if(!currentUser) currentUser = users[0]; }
+            else if(role === 'service') { let u = users.find(u=>u.phone===phone && u.role==='service'); if(u) currentUser = u; else { showToast("服务商账号不存在，请先入驻", true); return; } }
+            else { let u = users.find(u=>u.phone===phone && u.role==='user'); if(u) currentUser = u; else { currentUser = { id: "u"+Date.now(), name: phone, role: "user", phone, verified: true }; users.push(currentUser); saveToLocal(); } }
+            updateUIByRole();
+            closeModal();
+            showToast(`欢迎 ${currentUser.name}`);
+            switchPage('demands');
+        };
+        modal.style.display = 'flex';
+    }
+    function logout() { currentUser = { id: "guest", name: "游客", role: "guest", verified: false }; updateUIByRole(); switchPage('demands'); showToast("已退出"); }
+    function updateUIByRole() {
+        let userSpan = document.getElementById('userRoleBadge');
+        if(userSpan) userSpan.innerText = currentUser.role === 'admin' ? '管理员' : (currentUser.role === 'service' ? '服务商' : (currentUser.role === 'user' ? '实名用户' : '游客'));
+        document.getElementById('loginBtn').style.display = currentUser.role === 'guest' ? 'inline-block' : 'none';
+        document.getElementById('logoutBtn').style.display = currentUser.role !== 'guest' ? 'inline-block' : 'none';
+        let adminMenu = document.getElementById('adminMenu');
+        if(adminMenu) adminMenu.style.display = isAdmin() ? 'flex' : 'none';
+    }
+    function closeModal() { document.getElementById('globalModal').style.display = 'none'; }
+    document.getElementById('modalCancel').onclick = closeModal;
 
-    <!-- CTA 区域 -->
-    <section class="cta">
-        <div class="container">
-            <h2>开启智能财税之旅</h2>
-            <p>立即体验联达信智能财税平台，让记账、报税、合同管理变得简单高效。</p>
-            <a href="/console" class="btn btn-primary">登录工作台 <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer class="footer" id="contact">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>联达信</h4>
-                    <p>智能财税 · 业财税一体化平台</p>
-                    <p style="margin-top:12px;"><i class="fas fa-phone-alt"></i> 400-882-6688<br>
-                    <i class="fas fa-envelope"></i> service@liandaxin.com</p>
-                </div>
-                <div class="footer-col">
-                    <h4>产品</h4>
-                    <p><a href="#features">智能记账</a></p>
-                    <p><a href="#features">合同管理</a></p>
-                    <p><a href="#features">财务报表</a></p>
-                </div>
-                <div class="footer-col">
-                    <h4>支持</h4>
-                    <p><a href="#">帮助中心</a></p>
-                    <p><a href="#">API文档</a></p>
-                    <p><a href="#">隐私政策</a></p>
-                </div>
-                <div class="footer-col">
-                    <h4>关注我们</h4>
-                    <p><i class="fab fa-weixin"></i> 微信公众号</p>
-                    <p><i class="fab fa-linkedin"></i> 领英</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                © 2025 联达信财税代理有限公司 版权所有 | 粤ICP备2025XXXXXX号
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // 移动端菜单简单模拟（可根据需要扩展）
-        const mobileBtn = document.querySelector('.mobile-menu');
-        const navLinks = document.querySelector('.nav-links');
-        if(mobileBtn) {
-            mobileBtn.addEventListener('click', () => {
-                if(navLinks.style.display === 'flex') {
-                    navLinks.style.display = 'none';
-                } else {
-                    navLinks.style.display = 'flex';
-                    navLinks.style.flexDirection = 'column';
-                    navLinks.style.position = 'absolute';
-                    navLinks.style.top = '70px';
-                    navLinks.style.left = '0';
-                    navLinks.style.width = '100%';
-                    navLinks.style.backgroundColor = 'white';
-                    navLinks.style.padding = '20px';
-                    navLinks.style.gap = '20px';
-                    navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.05)';
-                }
-            });
-        }
-        // 修复窗口尺寸变化时移动端菜单样式
-        window.addEventListener('resize', () => {
-            if(window.innerWidth > 768) {
-                if(navLinks) navLinks.style.display = '';
-            } else {
-                if(navLinks && navLinks.style.display === 'flex' && window.innerWidth > 768) navLinks.style.display = '';
-            }
-        });
-    </script>
+    // 页面切换
+    function switchPage(page) {
+        document.querySelectorAll('.nav-item').forEach(item=>item.classList.remove('active'));
+        document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+        let titleMap = { demands:'需求大厅', publish:'发布需求', myOrders:'我的订单', applyService:'服务商入驻', admin:'管理后台' };
+        document.getElementById('pageTitle').innerText = titleMap[page] || '需求大厅';
+        if(page === 'demands') renderDemands();
+        else if(page === 'publish') renderPublish();
+        else if(page === 'myOrders') renderMyOrders();
+        else if(page === 'applyService') renderApplyService();
+        else if(page === 'admin') renderAdmin();
+    }
+    document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+        item.addEventListener('click', () => switchPage(item.getAttribute('data-page')));
+    });
+    document.getElementById('loginBtn').onclick = showLoginModal;
+    document.getElementById('logoutBtn').onclick = logout;
+    function escapeHtml(s) { return String(s).replace(/[&<>]/g, m=> m==='&'?'&amp;':(m==='<'?'&lt;':'&gt;')); }
+    // 初始化
+    updateUIByRole();
+    switchPage('demands');
+</script>
 </body>
 </html>
