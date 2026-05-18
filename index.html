@@ -3,805 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>联达信 · 智能财税核心版（含稳定合同催收）</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+    <title>联达信 | 智能财税 · 业财税一体化平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f0f4fa; color: #1a2c3c; }
-        .app-layout { display: flex; min-height: 100vh; }
-        .sidebar {
-            width: 260px;
-            background: linear-gradient(180deg, #0a2537 0%, #06212e 100%);
-            color: #e2f0ff;
-            flex-shrink: 0;
-            padding: 24px 16px;
-            overflow-y: auto;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .logo-area { margin-bottom: 32px; }
-        .logo-area h2 { font-weight: 700; font-size: 1.5rem; background: linear-gradient(120deg, #FFF, #7fc9ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .nav-item {
-            display: flex;
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1e293b;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* 滚动平滑 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 按钮 */
+        .btn {
+            display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            margin: 4px 0;
-            border-radius: 16px;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
             cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #1e6f9c;
+            color: white;
+            box-shadow: 0 4px 8px rgba(30,111,156,0.2);
+        }
+        .btn-primary:hover {
+            background: #0f5a82;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30,111,156,0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+        }
+        .btn-outline:hover {
+            border-color: #1e6f9c;
+            color: #1e6f9c;
+            background: #f8fafc;
+        }
+
+        /* 头部导航 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid #eef2f6;
+            padding: 16px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f2f44, #1e6f9c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #334155;
             font-weight: 500;
             transition: 0.2s;
         }
-        .nav-item.active, .nav-item:hover { background: rgba(57,138,186,0.3); color: white; }
-        .main-content { flex: 1; padding: 24px 28px; overflow-y: auto; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .client-selector { background: white; padding: 6px 16px; border-radius: 40px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-        .client-selector select { padding: 6px 12px; border-radius: 30px; border: 1px solid #cfdfed; background: white; min-width: 150px; }
-        .sync-panel { background: white; padding: 6px 16px; border-radius: 40px; display: flex; gap: 10px; }
-        .sync-btn { background: #eef2f9; border: none; padding: 6px 16px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; }
-        .sync-btn.primary { background: #1d6f9c; color: white; }
-        .card { background: white; border-radius: 28px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e9eff5; }
-        .card-header { font-weight: 700; font-size: 1.2rem; border-left: 4px solid #1d6f9c; padding-left: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .btn-sm { background: #f0f4fa; border: none; padding: 6px 14px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; }
-        .btn-sm.primary { background: #1d6f9c; color: white; }
-        .btn-sm.danger { background: #fee2e2; color: #b91c1c; }
-        .btn-sm.warning { background: #ffedd5; color: #c2410c; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eef2f8; font-size: 0.8rem; }
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000; }
-        .modal-content { background:white; border-radius:28px; padding:24px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size:0.8rem; margin-bottom:6px; font-weight:500; }
-        .form-group input, .form-group select { width:100%; padding:10px; border-radius:24px; border:1px solid #cfdfed; }
-        .page { display: none; }
-        .page.active-page { display: block; }
-        .toast { position: fixed; bottom:20px; right:20px; background:#0f2f3f; color:white; padding:8px 18px; border-radius:40px; font-size:0.75rem; z-index:1100; opacity:0; transition:0.2s; }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:12px; background:#f8fafc; padding:16px; border-radius:20px; margin-bottom:20px; }
-        .info-item { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-        .info-label { font-weight:600; width:70px; color:#4a6a85; }
-        .edit-icon { cursor: pointer; color:#1d6f9c; margin-left:6px; font-size:0.75rem; }
-        .voucher-header { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; background:#f9fafc; padding:12px; border-radius:20px; }
-        .entries-table { width:100%; border-collapse: collapse; margin:12px 0; }
-        .entries-table th, .entries-table td { border:1px solid #e2e8f0; padding:8px 10px; text-align:center; }
-        .entries-table th { background:#f8fafc; }
-        .entries-table input, .entries-table select { width:100%; padding:6px; border-radius:12px; border:1px solid #cfdfed; }
-        .total-row { font-weight:700; background:#f8fafc; }
-        .voucher-actions { display: flex; gap:12px; justify-content: flex-end; margin-top:20px; }
-        .add-row-btn { background:#eef2f9; border:none; padding:6px 16px; border-radius:30px; cursor:pointer; font-size:0.75rem; margin:8px 0; }
-        .badge-warning { background: #ffedd5; color: #c2410c; padding: 2px 8px; border-radius: 30px; font-size:0.7rem; }
-        .badge-danger { background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 30px; font-size:0.7rem; }
-        @media print { body * { visibility: hidden; } #printArea, #printArea * { visibility: visible; } #printArea { position: absolute; top:0; left:0; width:100%; padding:20mm; } .no-print { display: none; } }
-        @media (max-width:800px) { .sidebar { width:80px; } .sidebar span:not(i) { display:none; } }
+        .nav-links a:hover {
+            color: #1e6f9c;
+        }
+        .mobile-menu {
+            display: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            padding: 80px 0 60px;
+            background: linear-gradient(145deg, #f9fbfd 0%, #ffffff 100%);
+        }
+        .hero-grid {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-badge {
+            background: #eef6fc;
+            color: #1e6f9c;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .hero-content h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: #0f2f44;
+        }
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 32px;
+            max-width: 550px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
+        }
+        /* 装饰占位 */
+        .placeholder-img {
+            background: linear-gradient(145deg, #d9e6f2, #bdd4e8);
+            border-radius: 32px;
+            height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e6f9c;
+            font-size: 1.2rem;
+        }
+
+        /* 客户标识 */
+        .trust-section {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #eef2f6;
+            border-bottom: 1px solid #eef2f6;
+            background: #fafcff;
+        }
+        .trust-logos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 48px;
+            margin-top: 24px;
+            opacity: 0.7;
+            font-weight: 500;
+            color: #5a6e85;
+        }
+
+        /* 功能特性 */
+        .features {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section-desc {
+            text-align: center;
+            color: #5c6f87;
+            max-width: 700px;
+            margin: 0 auto 48px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 32px;
+            padding: 32px 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+            transition: 0.2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #cbdde9;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #1e6f9c;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .feature-card p {
+            color: #5c6f87;
+            line-height: 1.5;
+        }
+
+        /* 关于我们 */
+        .about {
+            background: #f8fafc;
+            padding: 80px 0;
+        }
+        .about-grid {
+            display: flex;
+            gap: 48px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .about-content {
+            flex: 1;
+        }
+        .about-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        .stat-item h4 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e6f9c;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(115deg, #0f2f44, #1a5270);
+            color: white;
+            padding: 70px 0;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        .cta .btn-primary {
+            background: white;
+            color: #1e6f9c;
+            box-shadow: none;
+            margin-top: 24px;
+        }
+        .cta .btn-primary:hover {
+            background: #f0f6fa;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: #0f2f44;
+            color: #cbd5e6;
+            padding: 60px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .footer-col p, .footer-col a {
+            color: #b0c4de;
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #2a4e69;
+            padding-top: 30px;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .hero-grid {
+                flex-direction: column;
+            }
+            .container {
+                padding: 0 20px;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="app-layout">
-    <div class="sidebar">
-        <div class="logo-area"><h2>联达信</h2><p style="font-size:0.7rem;">智能财税+合同催收</p></div>
-        <div class="nav-menu">
-            <div class="nav-item" data-page="dashboard"><i class="fas fa-chart-line"></i><span>工作总览</span></div>
-            <div class="nav-item" data-page="voucherEntry"><i class="fas fa-pen"></i><span>录凭证</span></div>
-            <div class="nav-item" data-page="voucherQuery"><i class="fas fa-search"></i><span>查凭证</span></div>
-            <div class="nav-item" data-page="ledger"><i class="fas fa-book"></i><span>明细账</span></div>
-            <div class="nav-item" data-page="generalLedger"><i class="fas fa-list"></i><span>总账</span></div>
-            <div class="nav-item" data-page="report"><i class="fas fa-chart-pie"></i><span>报表</span></div>
-            <div class="nav-item" data-page="contract"><i class="fas fa-file-signature"></i><span>合同管理</span></div>
-            <div class="nav-item" data-page="baseSettings"><i class="fas fa-cog"></i><span>科目设置</span></div>
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <div class="container nav-container">
+            <div class="logo">联达信</div>
+            <div class="nav-links">
+                <a href="#">首页</a>
+                <a href="#features">产品</a>
+                <a href="#about">关于</a>
+                <a href="#contact">联系</a>
+                <a href="/console" class="btn btn-outline" style="padding:8px 20px;">登录工作台</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
-        <div style="margin-top:40px; font-size:0.7rem; opacity:0.6;">数据本地保存</div>
     </div>
-    <div class="main-content">
-        <div class="top-bar">
-            <div class="client-selector">
-                <i class="fas fa-building"></i>
-                <select id="customerSelect"></select>
-                <button class="btn-sm" id="addCustomerBtn">+新客户</button>
-                <button class="btn-sm" id="editCustomerInfoBtn"><i class="fas fa-edit"></i>完善信息</button>
-            </div>
-            <div class="sync-panel">
-                <button class="sync-btn" id="loadDataBtn"><i class="fas fa-download"></i> 加载数据</button>
-                <button class="sync-btn primary" id="saveDataBtn"><i class="fas fa-upload"></i> 保存数据</button>
-            </div>
-        </div>
 
-        <!-- 工作总览 -->
-        <div id="page-dashboard" class="page">
-            <div class="card"><div class="card-header">工作总览</div><div id="dashboardContent"></div></div>
-            <div class="card"><div class="card-header">⚠️ 近期到期合同（30天内）</div><div id="expiringContracts"></div></div>
-        </div>
-
-        <!-- 录凭证 -->
-        <div id="page-voucherEntry" class="page">
-            <div class="card">
-                <div class="card-header">📝 记账凭证 <button class="btn-sm" id="printVoucherBtn"><i class="fas fa-print"></i> 打印凭证</button></div>
-                <div class="voucher-header">
-                    <div class="voucher-header-item"><label>凭证字</label><select id="voucherType"><option>记</option><option>收</option><option>付</option><option>转</option></select></div>
-                    <div class="voucher-header-item"><label>号</label><input type="text" id="voucherNo" placeholder="自动生成" style="width:100px;"></div>
-                    <div class="voucher-header-item"><label>日期</label><input type="date" id="voucherDate"></div>
-                    <div class="voucher-header-item"><label>附单据</label><input type="number" id="attachments" value="0" style="width:70px;"> 张</div>
-                    <div class="voucher-header-item"><label>期间</label><span id="periodDisplay"></span></div>
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">AI驱动 · 业财税一体化</div>
+                <h1>让记账更智能<br>让财税更安心</h1>
+                <p>联达信智能财税平台，为代理记账公司及中小企业提供一站式财税解决方案。AI自动记账、合同生命周期管理、多账簿支持，助力财税数字化转型。</p>
+                <div class="hero-buttons">
+                    <a href="/console" class="btn btn-primary">免费试用 <i class="fas fa-arrow-right"></i></a>
+                    <a href="#features" class="btn btn-outline">了解更多</a>
                 </div>
-                <table class="entries-table">
-                    <thead><tr><th style="width:25%">摘要</th><th style="width:40%">会计科目</th><th style="width:17%">借方金额</th><th style="width:17%">贷方金额</th><th style="width:5%"></th> </thead>
-                    <tbody id="entriesBody"><tr class="entry-row"><td><input type="text" class="summary" placeholder="摘要"></td><td><select class="accountSelect"><option value="">请选择科目</option></select></td><td><input type="number" step="0.01" class="debit" value="0" style="text-align:right"></td><td><input type="number" step="0.01" class="credit" value="0" style="text-align:right"></td><td><button class="remove-row-btn" onclick="removeEntryRow(this)">✖</button></td></tr></tbody>
-                    <tfoot><tr class="total-row"><td colspan="2"><strong>合计</strong></td><td id="totalDebit" style="text-align:right">0.00</td><td id="totalCredit" style="text-align:right">0.00</td><td></td></tr></tfoot>
-                </table>
-                <button class="add-row-btn" id="addRowBtn"><i class="fas fa-plus"></i> 新增分录行</button>
-                <div class="voucher-actions"><button class="btn-sm" id="saveAndNewBtn">保存并新增</button><button class="btn-sm primary" id="saveVoucherBtn">保存</button></div>
-                <div style="margin-top:12px; font-size:0.7rem; color:#7f8c8d; text-align:center;">提示：借贷金额自动合计，保存后自动生成凭证号并同步至账簿报表。</div>
-                <div style="margin-top:30px;"><div class="card-header">📋 已存凭证列表</div><div id="voucherEntryList"></div></div>
+            </div>
+            <div class="hero-image">
+                <div class="placeholder-img">
+                    <i class="fas fa-chart-line" style="font-size: 4rem; opacity: 0.7;"></i>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- 其他页面（简化但完整） -->
-        <div id="page-voucherQuery" class="page"><div class="card"><div class="card-header">查凭证 <div><input id="queryVoucherNo" placeholder="凭证号"><button class="btn-sm" id="searchVoucherBtn">搜索</button></div></div><div id="voucherQueryList"></div></div></div>
-        <div id="page-ledger" class="page"><div class="card"><div class="card-header">明细账 <div><input type="text" id="ledgerSubject" placeholder="科目代码或名称" style="width:180px;"><button class="btn-sm" id="queryLedgerBtn">查询</button></div></div><div id="ledgerTable"></div></div></div>
-        <div id="page-generalLedger" class="page"><div class="card"><div class="card-header">总账</div><div id="generalLedgerTable"></div></div></div>
-        <div id="page-report" class="page"><div class="card"><div class="card-header">财务报表</div><div class="flex-between" style="margin-bottom:16px;"><button class="btn-sm" id="showProfitBtn">利润表</button><button class="btn-sm" id="showBalanceBtn">资产负债表</button></div><div id="profitContainer"></div><div id="balanceContainer" style="display:none;"></div></div></div>
-        <div id="page-contract" class="page">
-            <div class="card"><div class="card-header">客户合同管理 <button class="btn-sm primary" id="addContractBtn"><i class="fas fa-plus"></i> 新增合同</button></div><div id="contractList"></div></div>
-            <div class="card"><div class="card-header">催收记录</div><div id="collectionLog"></div></div>
+    <!-- 信赖标识 -->
+    <div class="trust-section">
+        <div class="container">
+            <div style="color:#5f7d9c; font-size:0.8rem; letter-spacing:1px;">已服务全国超过300+代账机构及中小企业</div>
+            <div class="trust-logos">
+                <span>✅ 智能记账</span>
+                <span>✅ 全税种申报</span>
+                <span>✅ 合同催收</span>
+                <span>✅ 多客户账簿</span>
+                <span>✅ 资产负债表</span>
+            </div>
         </div>
-        <div id="page-baseSettings" class="page"><div class="card"><div class="card-header">科目管理 <button class="btn-sm primary" id="addAccountBtn">+新增科目</button></div><div id="accountList"></div></div></div>
     </div>
-</div>
 
-<div id="genericModal" class="modal"><div class="modal-content"><div id="modalContent"></div><div class="flex-between" style="margin-top:20px;"><button id="modalCancel">取消</button><button id="modalConfirm" class="btn-sm primary">确认</button></div></div></div>
-<div id="toastMsg" class="toast"></div>
-
-<script>
-    // ---------- 全局数据 ----------
-    let globalData = { customerList: [], customers: {} };
-    let currentCustomerId = null;
-
-    const defaultAccounts = [
-        { code: "1001", name: "库存现金", type: "资产", direction: "借" },
-        { code: "1002", name: "银行存款", type: "资产", direction: "借" },
-        { code: "1012", name: "其他货币资金", type: "资产", direction: "借" },
-        { code: "1122", name: "应收账款", type: "资产", direction: "借" },
-        { code: "1403", name: "库存商品", type: "资产", direction: "借" },
-        { code: "151102", name: "长期股权投资_其他股权投资", type: "资产", direction: "借" },
-        { code: "2001", name: "应付账款", type: "负债", direction: "贷" },
-        { code: "4001", name: "实收资本", type: "权益", direction: "贷" },
-        { code: "400102", name: "生产成本_辅助生产成本", type: "成本", direction: "借" },
-        { code: "5001", name: "主营业务收入", type: "损益", direction: "贷" },
-        { code: "5401", name: "主营业务成本", type: "损益", direction: "借" },
-        { code: "6602", name: "管理费用", type: "损益", direction: "借" }
-    ];
-
-    function getCurrentData() {
-        if (!currentCustomerId) return null;
-        if (!globalData.customers[currentCustomerId]) {
-            globalData.customers[currentCustomerId] = {
-                info: { name: currentCustomerId, taxNo: "", address: "", phone: "", taxType: "小规模纳税人" },
-                accounts: JSON.parse(JSON.stringify(defaultAccounts)),
-                detailedVouchers: [],
-                vouchers: [],
-                contracts: [],
-                collectionRecords: []
-            };
-            if (!globalData.customerList.includes(currentCustomerId)) globalData.customerList.push(currentCustomerId);
-        }
-        return globalData.customers[currentCustomerId];
-    }
-
-    function showToast(msg, isErr) {
-        let t = document.getElementById('toastMsg');
-        t.innerText = msg;
-        t.style.background = isErr ? '#b91c1c' : '#0f2f3f';
-        t.style.opacity = '1';
-        setTimeout(() => t.style.opacity = '0', 2500);
-    }
-    function escapeHtml(s) {
-        if (s === undefined || s === null) return '';
-        return String(s).replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
-    }
-
-    // 科目余额
-    function getAccountBalance(accountCode) {
-        let data = getCurrentData();
-        if (!data) return 0;
-        let balance = 0;
-        (data.vouchers || []).forEach(v => {
-            if (v.debitAccount === accountCode) balance += v.amount;
-            if (v.creditAccount === accountCode) balance -= v.amount;
-        });
-        return balance;
-    }
-    function loadAccountsToSelects() {
-        let data = getCurrentData();
-        if (!data) return;
-        let selects = document.querySelectorAll('.accountSelect');
-        if (!selects.length) return;
-        let options = '<option value="">请选择科目</option>';
-        data.accounts.forEach(acc => {
-            let bal = getAccountBalance(acc.code);
-            options += `<option value="${acc.code}">${acc.code} ${acc.name} (余额: ${bal.toFixed(2)})</option>`;
-        });
-        selects.forEach(sel => { sel.innerHTML = options; });
-    }
-
-    // 凭证相关函数（完整但精简）
-    function calculateTotal() {
-        let totalDebit = 0, totalCredit = 0;
-        document.querySelectorAll('.entry-row').forEach(row => {
-            totalDebit += parseFloat(row.querySelector('.debit').value) || 0;
-            totalCredit += parseFloat(row.querySelector('.credit').value) || 0;
-        });
-        document.getElementById('totalDebit').innerText = totalDebit.toFixed(2);
-        document.getElementById('totalCredit').innerText = totalCredit.toFixed(2);
-    }
-    function attachAmountListeners(row) {
-        let debit = row.querySelector('.debit'), credit = row.querySelector('.credit');
-        if (debit && credit) {
-            debit.addEventListener('input', function() { if (this.value !== '') credit.value = 0; calculateTotal(); });
-            credit.addEventListener('input', function() { if (this.value !== '') debit.value = 0; calculateTotal(); });
-        }
-    }
-    function addEntryRow() {
-        let tbody = document.getElementById('entriesBody');
-        let newRow = document.createElement('tr');
-        newRow.className = 'entry-row';
-        newRow.innerHTML = `
-            <td><input type="text" class="summary" placeholder="摘要"></td>
-            <td><select class="accountSelect"><option value="">请选择科目</option></select></td>
-            <td><input type="number" step="0.01" class="debit" value="0" style="text-align:right"></td>
-            <td><input type="number" step="0.01" class="credit" value="0" style="text-align:right"></td>
-            <td><button class="remove-row-btn" onclick="removeEntryRow(this)">✖</button></td>
-        `;
-        tbody.appendChild(newRow);
-        loadAccountsToSelects();
-        attachAmountListeners(newRow);
-        calculateTotal();
-    }
-    window.removeEntryRow = function(btn) {
-        let row = btn.closest('tr');
-        if (document.querySelectorAll('.entry-row').length > 1) {
-            row.remove();
-            calculateTotal();
-        } else showToast("至少保留一行分录", true);
-    };
-    function getCurrentPeriod() {
-        let date = document.getElementById('voucherDate').value;
-        if (!date) return '';
-        let d = new Date(date);
-        return `${d.getFullYear()}年第${d.getMonth()+1}期`;
-    }
-    async function saveVoucher(andNew = false) {
-        let data = getCurrentData();
-        if (!data) { showToast("请先选择客户", true); return; }
-        let voucherNo = document.getElementById('voucherNo').value.trim();
-        if (!voucherNo) {
-            let maxNo = 0;
-            (data.detailedVouchers || []).forEach(v => { let n = parseInt(v.voucherNo); if (!isNaN(n) && n > maxNo) maxNo = n; });
-            voucherNo = (maxNo + 1).toString();
-        }
-        let date = document.getElementById('voucherDate').value;
-        if (!date) { showToast("请选择日期", true); return; }
-        let entries = [], hasError = false;
-        document.querySelectorAll('.entry-row').forEach(row => {
-            let summary = row.querySelector('.summary').value;
-            let accountCode = row.querySelector('.accountSelect').value;
-            let debit = parseFloat(row.querySelector('.debit').value) || 0;
-            let credit = parseFloat(row.querySelector('.credit').value) || 0;
-            if (!accountCode) { showToast("请选择会计科目", true); hasError = true; return; }
-            if (debit === 0 && credit === 0) { showToast("金额不能同时为0", true); hasError = true; return; }
-            entries.push({ summary, accountCode, debit, credit });
-        });
-        if (hasError) return;
-        let totalDebit = entries.reduce((s,e) => s + e.debit, 0);
-        let totalCredit = entries.reduce((s,e) => s + e.credit, 0);
-        if (Math.abs(totalDebit - totalCredit) > 0.01) { showToast("借贷不平，无法保存", true); return; }
-        let attachments = parseInt(document.getElementById('attachments').value) || 0;
-        let newVoucher = { voucherNo, date, attachments, entries, maker: "邓芸", period: getCurrentPeriod() };
-        if (!data.detailedVouchers) data.detailedVouchers = [];
-        data.detailedVouchers.push(newVoucher);
-        let simpleVouchers = [];
-        entries.forEach(entry => {
-            simpleVouchers.push({
-                voucherNo, date, description: entry.summary,
-                debitAccount: entry.debit > 0 ? entry.accountCode : '',
-                creditAccount: entry.credit > 0 ? entry.accountCode : '',
-                amount: entry.debit + entry.credit
-            });
-        });
-        if (!data.vouchers) data.vouchers = [];
-        data.vouchers.push(...simpleVouchers);
-        await saveToLocal();
-        showToast(`凭证 ${voucherNo} 保存成功`);
-        if (andNew) resetVoucherForm();
-        else renderVoucherList();
-    }
-    function resetVoucherForm() {
-        document.getElementById('voucherNo').value = '';
-        document.getElementById('voucherDate').value = new Date().toISOString().slice(0,10);
-        document.getElementById('attachments').value = '0';
-        document.getElementById('periodDisplay').innerText = getCurrentPeriod();
-        let tbody = document.getElementById('entriesBody');
-        tbody.innerHTML = '';
-        let firstRow = document.createElement('tr');
-        firstRow.className = 'entry-row';
-        firstRow.innerHTML = `
-            <td><input type="text" class="summary" placeholder="摘要"></td>
-            <td><select class="accountSelect"><option value="">请选择科目</option></select></td>
-            <td><input type="number" step="0.01" class="debit" value="0" style="text-align:right"></td>
-            <td><input type="number" step="0.01" class="credit" value="0" style="text-align:right"></td>
-            <td><button class="remove-row-btn" onclick="removeEntryRow(this)">✖</button></td>
-        `;
-        tbody.appendChild(firstRow);
-        loadAccountsToSelects();
-        attachAmountListeners(firstRow);
-        calculateTotal();
-    }
-    function renderVoucherList() {
-        let data = getCurrentData();
-        if (!data) return;
-        let html = `<table><thead><tr><th>凭证号</th><th>日期</th><th>摘要</th><th>操作</th></tr></thead><tbody>`;
-        (data.detailedVouchers || []).forEach((v, idx) => {
-            let entriesText = v.entries.map(e => `${e.summary} (${e.accountCode}) ${e.debit>0?e.debit:e.credit}`).join('; ');
-            html += `<tr><td>${v.voucherNo}</td><td>${v.date}</td><td>${escapeHtml(entriesText)}</td>
-            <td><button class="btn-sm danger" onclick="deleteVoucher(${idx})">删除</button></td></tr>`;
-        });
-        html += `</tbody></table>`;
-        document.getElementById('voucherEntryList').innerHTML = html;
-    }
-    window.deleteVoucher = async (idx) => {
-        let data = getCurrentData();
-        if (data && data.detailedVouchers) {
-            let removed = data.detailedVouchers.splice(idx,1)[0];
-            data.vouchers = data.vouchers.filter(v => v.voucherNo !== removed.voucherNo);
-            await saveToLocal();
-            renderVoucherList();
-            showToast("已删除", false);
-        }
-    };
-    function printCurrentVoucher() { alert("打印功能已集成，请使用浏览器打印"); }
-
-    // 工作总览和到期合同
-    function renderDashboard() {
-        let data = getCurrentData();
-        if (!data) { document.getElementById('dashboardContent').innerHTML = '<p>请选择或创建客户</p>'; return; }
-        let info = data.info;
-        let html = `
-            <div class="info-grid">
-                <div class="info-item"><span class="info-label">客户名称：</span><span class="info-value">${escapeHtml(info.name)}</span><i class="fas fa-edit edit-icon" onclick="openEditCustomerModal()"></i></div>
-                <div class="info-item"><span class="info-label">统一社会信用代码：</span><span class="info-value">${escapeHtml(info.taxNo || '未设置')}</span></div>
-                <div class="info-item"><span class="info-label">地址：</span><span class="info-value">${escapeHtml(info.address || '未设置')}</span></div>
-                <div class="info-item"><span class="info-label">电话：</span><span class="info-value">${escapeHtml(info.phone || '未设置')}</span></div>
-                <div class="info-item"><span class="info-label">纳税人类型：</span><span class="info-value">${escapeHtml(info.taxType || '小规模纳税人')}</span></div>
+    <!-- 核心功能 -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">智能财税 · 极致体验</h2>
+            <p class="section-desc">从凭证录入到财务报表，全流程自动化，让您的团队效率提升50%以上。</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                    <h3>AI智慧记账</h3>
+                    <p>自动识别银行流水，智能生成凭证，科目余额实时计算，减少人工录入错误。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-file-contract"></i></div>
+                    <h3>合同生命周期管理</h3>
+                    <p>客户合同到期自动预警，一键催收，记录催收日志，降低坏账风险。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>多维度财务报表</h3>
+                    <p>利润表、资产负债表、总账明细账自动生成，支持打印和导出。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-building"></i></div>
+                    <h3>多客户独立账簿</h3>
+                    <p>为每个客户建立独立账簿，数据隔离，切换自如，满足代账机构需求。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h3>云端数据同步</h3>
+                    <p>支持GitHub私有仓库备份，数据永不丢失，多成员实时协作。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-print"></i></div>
+                    <h3>专业凭证打印</h3>
+                    <p>记账凭证支持纸质版打印，符合会计规范，一键生成纸质档案。</p>
+                </div>
             </div>
-            <p><strong>当前客户凭证数量：</strong> ${data.detailedVouchers?.length || 0} 张</p>
-            <p><strong>合同数量：</strong> ${data.contracts?.length || 0} 份</p>
-        `;
-        document.getElementById('dashboardContent').innerHTML = html;
-        renderExpiringContracts();
-    }
-    function renderExpiringContracts() {
-        let data = getCurrentData();
-        let container = document.getElementById('expiringContracts');
-        if (!data || !data.contracts || data.contracts.length === 0) {
-            container.innerHTML = '<p>暂无合同</p>';
-            return;
-        }
-        let today = new Date();
-        today.setHours(0,0,0,0);
-        let expiring = data.contracts.filter(c => {
-            let end = new Date(c.endDate);
-            let diffDays = Math.ceil((end - today) / (1000*3600*24));
-            return diffDays <= 30 && diffDays >= 0;
-        }).sort((a,b) => new Date(a.endDate) - new Date(b.endDate));
-        if (expiring.length === 0) {
-            container.innerHTML = '<p>暂无30天内到期合同</p>';
-            return;
-        }
-        let table = `<tr><thead><tr><th>合同名称</th><th>金额</th><th>到期日</th><th>剩余天数</th><th>操作</th></tr></thead><tbody>`;
-        expiring.forEach(c => {
-            let end = new Date(c.endDate);
-            let days = Math.ceil((end - today) / (1000*3600*24));
-            let badgeClass = days <= 7 ? 'badge-danger' : 'badge-warning';
-            table += `<tr><td>${escapeHtml(c.title)}</td><td>${c.amount.toFixed(2)}</td><td>${c.endDate}</td><td><span class="${badgeClass}">${days}天</span></td>
-            <td><button class="btn-sm warning" onclick="sendReminder('${c.id}')">发送催收提醒</button></td></tr>`;
-        });
-        table += `</tbody><table>`;
-        container.innerHTML = table;
-    }
+        </div>
+    </section>
 
-    // 合同管理核心函数（修复稳定性）
-    function renderContracts() {
-        let data = getCurrentData();
-        let container = document.getElementById('contractList');
-        if (!data) { container.innerHTML = '<p>请先选择客户</p>'; return; }
-        let contracts = data.contracts || [];
-        if (contracts.length === 0) {
-            container.innerHTML = '<p>暂无合同，点击“新增合同”添加</p>';
-            return;
-        }
-        let today = new Date(); today.setHours(0,0,0,0);
-        let html = `</table><thead><tr><th>合同名称</th><th>金额(元)</th><th>开始日期</th><th>结束日期</th><th>状态</th><th>剩余天数</th><th>操作</th> </thead><tbody>`;
-        contracts.forEach((c, idx) => {
-            let end = new Date(c.endDate);
-            let days = Math.ceil((end - today) / (1000*3600*24));
-            let status = days < 0 ? '已过期' : (days <= 30 ? '即将到期' : '有效');
-            let badgeClass = days < 0 ? 'badge-danger' : (days <= 30 ? 'badge-warning' : '');
-            html += `<tr><td>${escapeHtml(c.title)}</td><td>${c.amount.toFixed(2)}</td><td>${c.startDate}</td><td>${c.endDate}</td><td>${status}</td>
-            <td class="${badgeClass}">${days < 0 ? '已过期' : days+'天'}</td>
-            <td><button class="btn-sm" onclick="editContract(${idx})">编辑</button> <button class="btn-sm danger" onclick="deleteContract(${idx})">删除</button> <button class="btn-sm warning" onclick="sendReminder('${c.id}')">催收</button></td></tr>`;
-        });
-        html += `</tbody></table>`;
-        container.innerHTML = html;
-        renderCollectionLog();
-    }
-    function renderCollectionLog() {
-        let data = getCurrentData();
-        let container = document.getElementById('collectionLog');
-        if (!data) return;
-        let logs = data.collectionRecords || [];
-        if (logs.length === 0) {
-            container.innerHTML = '<p>暂无催收记录</p>';
-            return;
-        }
-        let html = `<tr><thead><tr><th>时间</th><th>合同</th><th>内容</th> </thead><tbody>`;
-        logs.forEach(log => {
-            let contract = (data.contracts || []).find(c => c.id === log.contractId);
-            let title = contract ? contract.title : '未知合同';
-            html += `<tr><td>${log.time}</td><td>${escapeHtml(title)}</td><td>${escapeHtml(log.message)}</td></tr>`;
-        });
-        html += `</tbody></table>`;
-        container.innerHTML = html;
-    }
-    window.sendReminder = function(contractId) {
-        let data = getCurrentData();
-        if (!data) return;
-        let contract = data.contracts.find(c => c.id === contractId);
-        if (!contract) return;
-        let msg = `【联达信】尊敬的客户，您与我司签订的合同“${contract.title}”将于 ${contract.endDate} 到期，请及时安排付款。如有疑问请联系我们。`;
-        if (!data.collectionRecords) data.collectionRecords = [];
-        data.collectionRecords.push({
-            time: new Date().toLocaleString(),
-            contractId: contractId,
-            message: msg
-        });
-        saveToLocal().then(() => {
-            renderContracts();
-            renderExpiringContracts();
-            showToast(`已向客户发送催收提醒`, false);
-        });
-    };
-    function openAddContractModal() {
-        let modal = document.getElementById('genericModal');
-        document.getElementById('modalContent').innerHTML = `
-            <h3>新增合同</h3>
-            <div class="form-group"><label>合同名称</label><input id="contractTitle"></div>
-            <div class="form-group"><label>合同金额</label><input type="number" step="0.01" id="contractAmount"></div>
-            <div class="form-group"><label>开始日期</label><input type="date" id="contractStart"></div>
-            <div class="form-group"><label>结束日期</label><input type="date" id="contractEnd"></div>
-        `;
-        let confirm = document.getElementById('modalConfirm');
-        confirm.onclick = async () => {
-            let data = getCurrentData();
-            if (!data) { showToast("请先选择客户", true); closeModal(); return; }
-            let title = document.getElementById('contractTitle').value;
-            let amount = parseFloat(document.getElementById('contractAmount').value) || 0;
-            let startDate = document.getElementById('contractStart').value;
-            let endDate = document.getElementById('contractEnd').value;
-            if (!title || !startDate || !endDate) { showToast("请填写完整信息", true); return; }
-            let newId = Date.now().toString();
-            if (!data.contracts) data.contracts = [];
-            data.contracts.push({ id: newId, title, amount, startDate, endDate });
-            await saveToLocal();
-            closeModal();
-            renderContracts();
-            renderExpiringContracts();
-            showToast("合同已添加", false);
-        };
-        modal.style.display = 'flex';
-    }
-    function editContract(idx) {
-        let data = getCurrentData();
-        if (!data || !data.contracts[idx]) return;
-        let c = data.contracts[idx];
-        let modal = document.getElementById('genericModal');
-        document.getElementById('modalContent').innerHTML = `
-            <h3>编辑合同</h3>
-            <div class="form-group"><label>合同名称</label><input id="contractTitle" value="${escapeHtml(c.title)}"></div>
-            <div class="form-group"><label>合同金额</label><input type="number" step="0.01" id="contractAmount" value="${c.amount}"></div>
-            <div class="form-group"><label>开始日期</label><input type="date" id="contractStart" value="${c.startDate}"></div>
-            <div class="form-group"><label>结束日期</label><input type="date" id="contractEnd" value="${c.endDate}"></div>
-        `;
-        let confirm = document.getElementById('modalConfirm');
-        confirm.onclick = async () => {
-            c.title = document.getElementById('contractTitle').value;
-            c.amount = parseFloat(document.getElementById('contractAmount').value) || 0;
-            c.startDate = document.getElementById('contractStart').value;
-            c.endDate = document.getElementById('contractEnd').value;
-            await saveToLocal();
-            closeModal();
-            renderContracts();
-            renderExpiringContracts();
-            showToast("合同已更新", false);
-        };
-        modal.style.display = 'flex';
-    }
-    window.deleteContract = async (idx) => {
-        let data = getCurrentData();
-        if (!data || !data.contracts[idx]) return;
-        if (confirm("确定删除该合同吗？")) {
-            data.contracts.splice(idx,1);
-            await saveToLocal();
-            renderContracts();
-            renderExpiringContracts();
-            showToast("已删除", false);
-        }
-    };
-    function openEditCustomerModal() {
-        let data = getCurrentData();
-        if (!data) return;
-        let info = data.info;
-        let modal = document.getElementById('genericModal');
-        document.getElementById('modalContent').innerHTML = `
-            <h3>编辑客户信息</h3>
-            <div class="form-group"><label>客户名称 *</label><input id="editCustName" value="${escapeHtml(info.name)}"></div>
-            <div class="form-group"><label>统一社会信用代码</label><input id="editTaxNo" value="${escapeHtml(info.taxNo || '')}"></div>
-            <div class="form-group"><label>地址</label><input id="editAddress" value="${escapeHtml(info.address || '')}"></div>
-            <div class="form-group"><label>联系电话（手机号）</label><input id="editPhone" value="${escapeHtml(info.phone || '')}" placeholder="11位手机号"></div>
-            <div class="form-group"><label>纳税人类型</label><select id="editTaxType"><option ${info.taxType==='小规模纳税人'?'selected':''}>小规模纳税人</option><option ${info.taxType==='一般纳税人'?'selected':''}>一般纳税人</option></select></div>
-        `;
-        let confirmBtn = document.getElementById('modalConfirm');
-        confirmBtn.onclick = async () => {
-            let newName = document.getElementById('editCustName').value.trim();
-            if (!newName) { showToast("客户名称不能为空", true); return; }
-            let phone = document.getElementById('editPhone').value.trim();
-            if (phone && !/^1[3-9]\d{9}$/.test(phone)) { showToast("手机号必须为11位数字，以1开头", true); return; }
-            let oldName = currentCustomerId;
-            let dataObj = globalData.customers[oldName];
-            if (!dataObj) return;
-            dataObj.info.name = newName;
-            dataObj.info.taxNo = document.getElementById('editTaxNo').value;
-            dataObj.info.address = document.getElementById('editAddress').value;
-            dataObj.info.phone = phone;
-            dataObj.info.taxType = document.getElementById('editTaxType').value;
-            if (newName !== oldName) {
-                if (globalData.customerList.includes(newName)) { showToast("客户名称已存在", true); return; }
-                globalData.customers[newName] = dataObj;
-                delete globalData.customers[oldName];
-                let idx = globalData.customerList.indexOf(oldName);
-                if (idx !== -1) globalData.customerList[idx] = newName;
-                currentCustomerId = newName;
-                updateCustomerSelect();
-            }
-            renderDashboard();
-            await saveToLocal();
-            closeModal();
-            showToast("客户信息已更新", false);
-        };
-        modal.style.display = 'flex';
-    }
-    function updateCustomerSelect() {
-        let sel = document.getElementById('customerSelect');
-        sel.innerHTML = globalData.customerList.map(c => `<option value="${escapeHtml(c)}" ${c===currentCustomerId?'selected':''}>${escapeHtml(c)}</option>`).join('');
-        if (globalData.customerList.length === 0) sel.innerHTML = '<option>-- 请新增客户 --</option>';
-    }
-    function refreshAll() {
-        if (!currentCustomerId) return;
-        renderDashboard();
-        renderVoucherList();
-        renderGeneralLedger();
-        renderAccounts();
-        renderProfit();
-        renderBalance();
-        renderContracts();
-        loadAccountsToSelects();
-    }
-    // 其他页面渲染（简化但必须存在）
-    function renderGeneralLedger() {
-        let data = getCurrentData();
-        if (!data) return;
-        let map = new Map();
-        (data.vouchers || []).forEach(v => {
-            if (v.debitAccount) { let cur = map.get(v.debitAccount) || {debit:0, credit:0}; cur.debit += v.amount; map.set(v.debitAccount, cur); }
-            if (v.creditAccount) { let cur = map.get(v.creditAccount) || {debit:0, credit:0}; cur.credit += v.amount; map.set(v.creditAccount, cur); }
-        });
-        let html = `<table><thead><tr><th>科目代码</th><th>科目名称</th><th>借方发生额</th><th>贷方发生额</th></tr></thead><tbody>`;
-        for (let [code, vals] of map) {
-            let acc = data.accounts.find(a => a.code === code);
-            html += `<tr><td>${code}</td><td>${acc ? acc.name : code}</td><td style="text-align:right">${vals.debit.toFixed(2)}</td><td style="text-align:right">${vals.credit.toFixed(2)}</td></tr>`;
-        }
-        html += `</tbody></table>`;
-        document.getElementById('generalLedgerTable').innerHTML = html;
-    }
-    function renderLedger(subject) {
-        let data = getCurrentData();
-        if (!data) return;
-        let account = data.accounts.find(a => a.code === subject || a.name === subject);
-        if (!account) { document.getElementById('ledgerTable').innerHTML = '<p>未找到科目</p>'; return; }
-        let vouchers = (data.vouchers || []).filter(v => v.debitAccount === account.code || v.creditAccount === account.code);
-        let balance = 0;
-        let html = `<table><thead><tr><th>日期</th><th>凭证号</th><th>摘要</th><th>借方</th><th>贷方</th><th>方向</th><th>余额</th></tr></thead><tbody>`;
-        vouchers.forEach(v => {
-            let debit = v.debitAccount === account.code ? v.amount : 0;
-            let credit = v.creditAccount === account.code ? v.amount : 0;
-            balance = balance + debit - credit;
-            let dir = balance >= 0 ? '借' : '贷';
-            html += `<tr><td>${v.date}</td><td>${v.voucherNo}</td><td>${v.description || ''}</td><td style="text-align:right">${debit.toFixed(2)}</td><td style="text-align:right">${credit.toFixed(2)}</td><td>${dir}</td><td style="text-align:right">${Math.abs(balance).toFixed(2)}</td></tr>`;
-        });
-        html += `</tbody></table>`;
-        document.getElementById('ledgerTable').innerHTML = html;
-    }
-    function renderProfit() {
-        let data = getCurrentData();
-        if (!data) return;
-        let income = 0, cost = 0, manage = 0;
-        (data.vouchers || []).forEach(v => {
-            if (v.creditAccount === '5001') income += v.amount;
-            if (v.debitAccount === '5401') cost += v.amount;
-            if (v.debitAccount === '6602') manage += v.amount;
-        });
-        let profit = income - cost - manage;
-        let html = `<td><thead><tr><th>项目</th><th>金额</th></tr></thead><tbody>
-            <tr><td>营业收入</td><td style="text-align:right">${income.toFixed(2)}</td></tr>
-            <tr><td>减：营业成本</td><td style="text-align:right">${cost.toFixed(2)}</td></tr>
-            <tr><td>管理费用</td><td style="text-align:right">${manage.toFixed(2)}</td></tr>
-            <tr style="font-weight:700"><td>利润总额</td><td style="text-align:right">${profit.toFixed(2)}</td></tr>
-        </tbody></table>`;
-        document.getElementById('profitContainer').innerHTML = html;
-    }
-    function renderBalance() {
-        let data = getCurrentData();
-        if (!data) return;
-        let assets = 0, liabilities = 0, equity = 0;
-        (data.vouchers || []).forEach(v => {
-            if (v.debitAccount === '1001' || v.debitAccount === '1002') assets += v.amount;
-            if (v.creditAccount === '2001') liabilities += v.amount;
-            if (v.creditAccount === '4001') equity += v.amount;
-        });
-        let html = `<table><thead><tr><th>资产</th><th>金额</th><th>负债及权益</th><th>金额</th></tr></thead><tbody>
-            <tr><td>货币资金</td><td style="text-align:right">${assets.toFixed(2)}</td><td>应付账款</td><td style="text-align:right">${liabilities.toFixed(2)}</td></tr>
-            <tr><td>资产总计</td><td style="text-align:right">${assets.toFixed(2)}</td><td>权益总计</td><td style="text-align:right">${equity.toFixed(2)}</td></tr>
-        </tbody></table>`;
-        document.getElementById('balanceContainer').innerHTML = html;
-    }
-    function renderAccounts() {
-        let data = getCurrentData();
-        if (!data) return;
-        let html = `<table><thead><tr><th>科目代码</th><th>科目名称</th><th>类型</th><th>方向</th><th>操作</th> </thead><tbody>`;
-        data.accounts.forEach((acc, idx) => {
-            html += `<tr><td>${acc.code}</td><td>${acc.name}</td><td>${acc.type}</td><td>${acc.direction}</td>
-            <td><button class="btn-sm danger" onclick="deleteAccount(${idx})">删除</button></td></tr>`;
-        });
-        html += `</tbody></table>`;
-        document.getElementById('accountList').innerHTML = html;
-    }
-    window.deleteAccount = async (idx) => {
-        let data = getCurrentData();
-        data.accounts.splice(idx,1);
-        renderAccounts();
-        await saveToLocal();
-    };
-    function openAddAccountModal() {
-        let modal = document.getElementById('genericModal');
-        document.getElementById('modalContent').innerHTML = `<h3>新增科目</h3><div class="form-group"><label>科目代码</label><input id="newCode"></div><div class="form-group"><label>科目名称</label><input id="newName"></div><div class="form-group"><label>类型</label><select id="newType"><option>资产</option><option>负债</option><option>权益</option><option>损益</option></select></div><div class="form-group"><label>方向</label><select id="newDir"><option>借</option><option>贷</option></select></div>`;
-        let confirm = document.getElementById('modalConfirm');
-        confirm.onclick = async () => {
-            let data = getCurrentData();
-            data.accounts.push({
-                code: document.getElementById('newCode').value,
-                name: document.getElementById('newName').value,
-                type: document.getElementById('newType').value,
-                direction: document.getElementById('newDir').value
-            });
-            renderAccounts();
-            await saveToLocal();
-            closeModal();
-            showToast("科目已添加", false);
-        };
-        modal.style.display = 'flex';
-    }
-    function closeModal() { document.getElementById('genericModal').style.display = 'none'; }
-    document.getElementById('modalCancel').onclick = closeModal;
+    <!-- 关于我们 -->
+    <section class="about" id="about">
+        <div class="container about-grid">
+            <div class="about-content">
+                <h2>关于联达信</h2>
+                <p>联达信财税代理有限公司成立于2015年，专注于为企业提供智能财税解决方案。我们拥有资深财税专家和技术团队，致力于用科技重塑传统记账模式，让财税工作更高效、更透明。</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h4>300+</h4>
+                        <p>服务客户</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>50%</h4>
+                        <p>效率提升</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>99.9%</h4>
+                        <p>数据准确率</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="placeholder-img" style="height: 280px;">
+                    <i class="fas fa-chalkboard-user" style="font-size: 3rem;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    function renderVoucherQuery(keyword) {
-        let data = getCurrentData();
-        if (!data) return;
-        let filtered = keyword ? (data.detailedVouchers || []).filter(v => v.voucherNo === keyword) : data.detailedVouchers || [];
-        let html = `</table><thead><tr><th>凭证号</th><th>日期</th><th>摘要</th> </thead><tbody>`;
-        filtered.forEach(v => {
-            let entriesText = v.entries.map(e => `${e.summary} (${e.accountCode}) ${e.debit>0?e.debit:e.credit}`).join('; ');
-            html += `<tr><td>${v.voucherNo}</td><td>${v.date}</td><td>${escapeHtml(entriesText)}</td></tr>`;
-        });
-        html += `</tbody></table>`;
-        document.getElementById('voucherQueryList').innerHTML = html;
-    }
+    <!-- CTA 区域 -->
+    <section class="cta">
+        <div class="container">
+            <h2>开启智能财税之旅</h2>
+            <p>立即体验联达信智能财税平台，让记账、报税、合同管理变得简单高效。</p>
+            <a href="/console" class="btn btn-primary">登录工作台 <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
 
-    // 页面切换
-    function switchPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        let target = document.getElementById(`page-${pageId}`);
-        if (target) target.classList.add('active-page');
-        if (pageId === 'dashboard') renderDashboard();
-        if (pageId === 'voucherEntry') { resetVoucherForm(); renderVoucherList(); }
-        if (pageId === 'voucherQuery') renderVoucherQuery('');
-        if (pageId === 'generalLedger') renderGeneralLedger();
-        if (pageId === 'ledger') renderLedger(document.getElementById('ledgerSubject')?.value || '');
-        if (pageId === 'baseSettings') renderAccounts();
-        if (pageId === 'report') { renderProfit(); renderBalance(); }
-        if (pageId === 'contract') renderContracts();
-    }
-    document.querySelectorAll('.nav-item[data-page]').forEach(item => {
-        item.addEventListener('click', () => switchPage(item.getAttribute('data-page')));
-    });
+    <!-- 页脚 -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>联达信</h4>
+                    <p>智能财税 · 业财税一体化平台</p>
+                    <p style="margin-top:12px;"><i class="fas fa-phone-alt"></i> 400-882-6688<br>
+                    <i class="fas fa-envelope"></i> service@liandaxin.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>产品</h4>
+                    <p><a href="#features">智能记账</a></p>
+                    <p><a href="#features">合同管理</a></p>
+                    <p><a href="#features">财务报表</a></p>
+                </div>
+                <div class="footer-col">
+                    <h4>支持</h4>
+                    <p><a href="#">帮助中心</a></p>
+                    <p><a href="#">API文档</a></p>
+                    <p><a href="#">隐私政策</a></p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <p><i class="fab fa-weixin"></i> 微信公众号</p>
+                    <p><i class="fab fa-linkedin"></i> 领英</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2025 联达信财税代理有限公司 版权所有 | 粤ICP备2025XXXXXX号
+            </div>
+        </div>
+    </footer>
 
-    // 本地存储
-    async function saveToLocal() {
-        let allData = { customerList: globalData.customerList, customers: globalData.customers };
-        localStorage.setItem('liandaxin_data', JSON.stringify(allData));
-        showToast("数据已保存（本地）", false);
-    }
-    async function loadFromLocal() {
-        let saved = localStorage.getItem('liandaxin_data');
-        if (saved) {
-            try {
-                let data = JSON.parse(saved);
-                globalData.customerList = data.customerList || [];
-                globalData.customers = data.customers || {};
-                // 确保每个客户都有必要的字段
-                for (let cid of globalData.customerList) {
-                    if (!globalData.customers[cid]) continue;
-                    if (!globalData.customers[cid].contracts) globalData.customers[cid].contracts = [];
-                    if (!globalData.customers[cid].collectionRecords) globalData.customers[cid].collectionRecords = [];
-                    if (!globalData.customers[cid].detailedVouchers) globalData.customers[cid].detailedVouchers = [];
-                    if (!globalData.customers[cid].vouchers) globalData.customers[cid].vouchers = [];
+    <script>
+        // 移动端菜单简单模拟（可根据需要扩展）
+        const mobileBtn = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '70px';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.backgroundColor = 'white';
+                    navLinks.style.padding = '20px';
+                    navLinks.style.gap = '20px';
+                    navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.05)';
                 }
-                if (globalData.customerList.length > 0 && !currentCustomerId) currentCustomerId = globalData.customerList[0];
-                updateCustomerSelect();
-                refreshAll();
-                showToast("加载本地数据成功", false);
-            } catch(e) { showToast("加载失败", true); }
-        } else {
-            globalData = { customerList: ["示例客户"], customers: { "示例客户": { info: { name: "示例客户", taxNo: "", address: "", phone: "", taxType: "小规模纳税人" }, accounts: JSON.parse(JSON.stringify(defaultAccounts)), detailedVouchers: [], vouchers: [], contracts: [], collectionRecords: [] } } };
-            currentCustomerId = "示例客户";
-            updateCustomerSelect();
-            refreshAll();
+            });
         }
-    }
-
-    // 事件绑定
-    document.getElementById('addRowBtn').onclick = addEntryRow;
-    document.getElementById('saveVoucherBtn').onclick = () => saveVoucher(false);
-    document.getElementById('saveAndNewBtn').onclick = () => saveVoucher(true);
-    document.getElementById('printVoucherBtn').onclick = printCurrentVoucher;
-    document.getElementById('queryLedgerBtn').onclick = () => renderLedger(document.getElementById('ledgerSubject').value);
-    document.getElementById('searchVoucherBtn').onclick = () => renderVoucherQuery(document.getElementById('queryVoucherNo').value);
-    document.getElementById('addAccountBtn').onclick = openAddAccountModal;
-    document.getElementById('showProfitBtn').onclick = () => { document.getElementById('profitContainer').style.display='block'; document.getElementById('balanceContainer').style.display='none'; renderProfit(); };
-    document.getElementById('showBalanceBtn').onclick = () => { document.getElementById('profitContainer').style.display='none'; document.getElementById('balanceContainer').style.display='block'; renderBalance(); };
-    document.getElementById('loadDataBtn').onclick = loadFromLocal;
-    document.getElementById('saveDataBtn').onclick = saveToLocal;
-    document.getElementById('addContractBtn').onclick = openAddContractModal;
-    document.getElementById('editCustomerInfoBtn').onclick = openEditCustomerModal;
-    document.getElementById('addCustomerBtn').onclick = () => {
-        let name = prompt("请输入新客户名称");
-        if (name && !globalData.customerList.includes(name)) {
-            globalData.customerList.push(name);
-            globalData.customers[name] = {
-                info: { name, taxNo: "", address: "", phone: "", taxType: "小规模纳税人" },
-                accounts: JSON.parse(JSON.stringify(defaultAccounts)),
-                detailedVouchers: [], vouchers: [], contracts: [], collectionRecords: []
-            };
-            currentCustomerId = name;
-            updateCustomerSelect();
-            refreshAll();
-            saveToLocal();
-        }
-    };
-    document.getElementById('customerSelect').onchange = (e) => {
-        currentCustomerId = e.target.value;
-        refreshAll();
-    };
-
-    // 初始化
-    loadFromLocal();
-    document.getElementById('voucherDate').value = new Date().toISOString().slice(0,10);
-    document.getElementById('periodDisplay').innerText = getCurrentPeriod();
-</script>
+        // 修复窗口尺寸变化时移动端菜单样式
+        window.addEventListener('resize', () => {
+            if(window.innerWidth > 768) {
+                if(navLinks) navLinks.style.display = '';
+            } else {
+                if(navLinks && navLinks.style.display === 'flex' && window.innerWidth > 768) navLinks.style.display = '';
+            }
+        });
+    </script>
 </body>
 </html>
