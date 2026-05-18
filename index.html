@@ -82,7 +82,7 @@
 <script>
     // ==================== GitHub 配置（请修改为您的真实信息） ====================
     const GITHUB_CONFIG = {
-        owner: '你的GitHub用户名',          // 例如 'dengyun123321'
+        owner: 'dengyun123321',          // 例如 'dengyun123321'
         repo: 'guiji-data',                // 用于存储平台数据的仓库（需提前创建，公开或私有均可，但前端需有token）
         token: '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',             // 具有 repo 权限的 Personal Access Token
         path: 'platform_data.json'         // 存储所有数据的文件名
@@ -425,7 +425,7 @@
     
     // 初始化
     async function init() {
-        if (GITHUB_CONFIG.owner === '你的GitHub用户名' || GITHUB_CONFIG.token === '你的私人令牌') {
+        if (GITHUB_CONFIG.owner === 'dengyun123321' || GITHUB_CONFIG.token === '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') {
             showToast("请先在代码中配置 GitHub 用户名、仓库名和 Token", true);
             initDefaultData();
             renderAll();
