@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>联达信 · 财税同行协作平台 | 发布需求 · 对接资源</title>
+    <title>硅基梦境 · 财税同行协作平台 | 需求对接 · 生态共建</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f0f4fa; color: #1e293b; }
-        /* 布局 */
         .app { display: flex; min-height: 100vh; }
-        /* 侧边栏菜单 */
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #0a2537 0%, #06212e 100%);
+            background: linear-gradient(180deg, #0a1a2a 0%, #05141f 100%);
             color: #e2f0ff;
             flex-shrink: 0;
             padding: 24px 20px;
             transition: all 0.2s;
         }
-        .logo { font-size: 1.6rem; font-weight: 800; margin-bottom: 32px; background: linear-gradient(120deg, #FFF, #7fc9ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 32px; background: linear-gradient(120deg, #FFF, #9ad0ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .nav-item {
             display: flex;
             align-items: center;
@@ -33,7 +31,6 @@
             transition: 0.2s;
         }
         .nav-item:hover, .nav-item.active { background: rgba(57,138,186,0.3); color: white; }
-        /* 主内容区 */
         .main-content { flex: 1; padding: 24px 32px; overflow-y: auto; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
         .user-info { background: white; padding: 8px 20px; border-radius: 40px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
@@ -46,6 +43,7 @@
         .demand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 20px; }
         .demand-card { background: #fff; border-radius: 24px; padding: 16px; border: 1px solid #eef2f8; transition: 0.2s; }
         .demand-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .price-highlight { font-weight: 800; color: #c2410c; font-size: 1.1rem; }
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000; }
         .modal-content { background:white; border-radius:32px; padding:24px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; }
         .form-group { margin-bottom: 16px; }
@@ -58,7 +56,7 @@
 <body>
 <div class="app">
     <div class="sidebar">
-        <div class="logo">联达信·同行协作</div>
+        <div class="logo">硅基梦境<br><span style="font-size:0.7rem;">财税协作生态</span></div>
         <div class="nav-item" data-page="demands"><i class="fas fa-list"></i><span>需求大厅</span></div>
         <div class="nav-item" data-page="publish"><i class="fas fa-plus-circle"></i><span>发布需求</span></div>
         <div class="nav-item" data-page="myOrders"><i class="fas fa-clipboard-list"></i><span>我的订单</span></div>
@@ -82,48 +80,133 @@
 <div id="toastMsg" class="toast"></div>
 
 <script>
-    // ---------------------------- 模拟数据库 ----------------------------
-    let demands = [  // 需求列表
-        { id: "d1", title: "深圳龙华公司代理记账", description: "需要一般纳税人代账，每月票据整理+纳税申报", budget: 2000, region: "深圳", type: "代理记账", publisherId: "u2", publisherName: "李会计", publishTime: "2025-05-15", status: "active", acceptedBy: null },
-        { id: "d2", title: "东莞出口退税代办", description: "急需办理出口退税，有经验的服务商请联系", budget: 5000, region: "东莞", type: "出口退税", publisherId: "u3", publisherName: "王总", publishTime: "2025-05-16", status: "active", acceptedBy: null },
-        { id: "d3", title: "广州工商注销加急", description: "公司营业执照注销，要求两周内办结", budget: 1500, region: "广州", type: "工商服务", publisherId: "u4", publisherName: "陈经理", publishTime: "2025-05-14", status: "active", acceptedBy: null }
-    ];
-    let users = [
-        { id: "admin", name: "平台管理员", role: "admin", phone: "", realName: "超级管理员" },
-        { id: "fuwu1", name: "深圳安信财税", role: "service", phone: "13800138001", realName: "安信财税", approved: true, depositPaid: false },
-        { id: "user1", name: "张会计", role: "user", phone: "13800138002", realName: "张明", verified: true },
-        { id: "guest", name: "游客", role: "guest", verified: false }
-    ];
-    let orders = []; // 接单记录 { demandId, serviceId, serviceName, status, createTime }
-    let serviceApplications = []; // 服务商入驻申请 { name, contact, reason, status }
+    // ==================== GitHub 配置（请修改为您的真实信息） ====================
+    const GITHUB_CONFIG = {
+        owner: '你的GitHub用户名',          // 例如 'dengyun123321'
+        repo: 'guiji-data',                // 用于存储平台数据的仓库（需提前创建，公开或私有均可，但前端需有token）
+        token: '你的私人令牌',             // 具有 repo 权限的 Personal Access Token
+        path: 'platform_data.json'         // 存储所有数据的文件名
+    };
+    // =========================================================================
     
-    let currentUser = { id: "guest", name: "游客", role: "guest", verified: false }; // 当前登录用户
-
+    // 价格策略
+    const PRICE_MULTIPLIER = 1.5;      // 现有需求价格乘以1.5
+    const DEFAULT_BUDGET = 3000;       // 新发布需求默认预算（元）
+    
+    // 全局数据结构
+    let platformData = {
+        users: [],      // { id, name, phone, role, realName, verified, createdAt }
+        demands: [],    // { id, title, description, budget, region, type, publisherId, publisherName, publishTime, status, acceptedBy }
+        orders: [],     // { demandId, serviceId, serviceName, status, createTime }
+        applications: [] // { id, name, phone, reason, userId, status, createdAt }
+    };
+    
+    let currentUser = { id: "guest", name: "游客", role: "guest" };
+    let currentSha = null;
+    
     // 辅助函数
-    function showToast(msg, isErr=false) { let t=document.getElementById('toastMsg'); t.innerText=msg; t.style.background=isErr?'#b91c1c':'#0f2f3f'; t.style.opacity='1'; setTimeout(()=>t.style.opacity='0',2500); }
-    function saveToLocal() { localStorage.setItem('liandaxin_collab', JSON.stringify({demands, users, orders, serviceApplications})); }
-    function loadFromLocal() {
-        let d = localStorage.getItem('liandaxin_collab');
-        if(d) { let data=JSON.parse(d); demands=data.demands; users=data.users; orders=data.orders; serviceApplications=data.serviceApplications; }
-        else { saveToLocal(); }
+    function showToast(msg, isErr=false) { 
+        let t=document.getElementById('toastMsg'); 
+        t.innerText=msg; 
+        t.style.background=isErr?'#b91c1c':'#0f2f3f'; 
+        t.style.opacity='1'; 
+        setTimeout(()=>t.style.opacity='0',2500); 
     }
-    loadFromLocal();
-
+    function escapeHtml(s) { 
+        if(!s) return '';
+        return String(s).replace(/[&<>]/g, m=> m==='&'?'&amp;':(m==='<'?'&lt;':'&gt;')); 
+    }
+    
+    // ---------- GitHub API 核心 ----------
+    async function getFile() {
+        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`;
+        const resp = await fetch(url, { headers: { 'Authorization': `token ${GITHUB_CONFIG.token}` } });
+        if (resp.status === 404) return { sha: null, content: null };
+        if (!resp.ok) throw new Error(`GitHub API error: ${resp.status}`);
+        const data = await resp.json();
+        return { sha: data.sha, content: atob(data.content) };
+    }
+    
+    async function saveToGitHub() {
+        try {
+            let sha = currentSha;
+            if (!sha) {
+                const file = await getFile();
+                if (file.sha) sha = file.sha;
+            }
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(platformData, null, 2))));
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`;
+            const body = { message: "更新平台数据", content: content, branch: "main" };
+            if (sha) body.sha = sha;
+            const resp = await fetch(url, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `token ${GITHUB_CONFIG.token}` },
+                body: JSON.stringify(body)
+            });
+            if (!resp.ok) throw new Error(`保存失败: ${resp.status}`);
+            const result = await resp.json();
+            currentSha = result.content.sha;
+            showToast("数据已保存到 GitHub", false);
+        } catch (err) {
+            showToast(`保存失败: ${err.message}`, true);
+        }
+    }
+    
+    async function loadFromGitHub() {
+        try {
+            const { content, sha } = await getFile();
+            if (content) {
+                const data = JSON.parse(content);
+                platformData = data;
+                currentSha = sha;
+                showToast("数据加载成功", false);
+            } else {
+                // 初始化默认数据
+                initDefaultData();
+                showToast("云端无数据，已初始化默认数据", false);
+            }
+            renderAll();
+        } catch (err) {
+            showToast(`加载失败: ${err.message}，使用本地缓存`, true);
+            renderAll();
+        }
+    }
+    
+    function initDefaultData() {
+        // 默认管理员
+        const admin = { id: "admin", name: "平台管理员", phone: "", role: "admin", realName: "超级管理员", verified: true, createdAt: new Date().toISOString() };
+        // 默认服务商
+        const service1 = { id: "fuwu1", name: "深圳安信财税", phone: "13800138001", role: "service", realName: "安信财税", verified: true, createdAt: new Date().toISOString() };
+        // 默认实名用户
+        const user1 = { id: "user1", name: "张会计", phone: "13800138002", role: "user", realName: "张明", verified: true, createdAt: new Date().toISOString() };
+        platformData.users = [admin, service1, user1];
+        
+        // 初始需求（价格已抬高）
+        const rawDemands = [
+            { id: "d1", title: "深圳龙华公司代理记账", description: "需要一般纳税人代账，每月票据整理+纳税申报", budget: 2000, region: "深圳", type: "代理记账", publisherId: "user1", publisherName: "张会计", publishTime: "2025-05-15", status: "active", acceptedBy: null },
+            { id: "d2", title: "东莞出口退税代办", description: "急需办理出口退税，有经验的服务商请联系", budget: 5000, region: "东莞", type: "出口退税", publisherId: "user1", publisherName: "张会计", publishTime: "2025-05-16", status: "active", acceptedBy: null }
+        ];
+        platformData.demands = rawDemands.map(d => ({ ...d, budget: Math.round(d.budget * PRICE_MULTIPLIER) }));
+        platformData.orders = [];
+        platformData.applications = [];
+    }
+    
     // 权限检查
     function canPublish() { return currentUser.role === 'user' || currentUser.role === 'service' || currentUser.role === 'admin'; }
     function canAccept() { return currentUser.role === 'user' || currentUser.role === 'service'; }
     function isAdmin() { return currentUser.role === 'admin'; }
-
-    // 渲染页面
-    function renderDemands() {
+    
+    // 渲染所有页面（由路由调用）
+    async function renderDemands() {
         let html = `<div class="card"><div class="card-header">📋 最新需求 <div><select id="filterType"><option value="">全部类型</option><option>代理记账</option><option>出口退税</option><option>工商服务</option></select><select id="filterRegion"><option value="">全部地区</option><option>深圳</option><option>广州</option><option>东莞</option></select></div></div><div class="demand-grid" id="demandsList"></div></div>`;
         document.getElementById('pageContainer').innerHTML = html;
         filterDemands();
     }
+    
     function filterDemands() {
         let type = document.getElementById('filterType')?.value || '';
         let region = document.getElementById('filterRegion')?.value || '';
-        let filtered = demands.filter(d => d.status === 'active');
+        let filtered = platformData.demands.filter(d => d.status === 'active');
         if(type) filtered = filtered.filter(d => d.type === type);
         if(region) filtered = filtered.filter(d => d.region === region);
         let container = document.getElementById('demandsList');
@@ -133,158 +216,226 @@
             <div class="demand-card">
                 <div style="display:flex; justify-content:space-between;"><strong>${escapeHtml(d.title)}</strong><span class="badge">${d.region}</span></div>
                 <div style="font-size:0.8rem; color:#5c6f87; margin:8px 0;">${escapeHtml(d.description)}</div>
-                <div>预算: ¥${d.budget} | 类型: ${d.type}</div>
+                <div>预算: <span class="price-highlight">¥${d.budget.toFixed(2)}</span> | 类型: ${d.type}</div>
                 <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
                     <span>发布: ${d.publishTime}</span>
-                    ${canAccept() && d.acceptedBy === null ? `<button class="btn-sm btn-primary" onclick="acceptDemand('${d.id}')">我要接单</button>` : (d.acceptedBy ? `<span class="badge">已接单</span>` : `<span class="badge">游客不可接单</span>`)}
+                    ${canAccept() && !d.acceptedBy ? `<button class="btn-sm btn-primary" onclick="acceptDemand('${d.id}')">我要接单</button>` : (d.acceptedBy ? `<span class="badge">已接单</span>` : `<span class="badge">游客不可接单</span>`)}
                 </div>
             </div>
         `).join('');
     }
-    window.acceptDemand = function(demandId) {
+    
+    window.acceptDemand = async function(demandId) {
         if(!canAccept()) { showToast("请先登录并完成实名认证或入驻成为服务商", true); return; }
-        let demand = demands.find(d=>d.id===demandId);
+        let demand = platformData.demands.find(d=>d.id===demandId);
         if(!demand || demand.acceptedBy) { showToast("该需求已被接单", true); return; }
         demand.acceptedBy = currentUser.id;
-        orders.push({ demandId, serviceId: currentUser.id, serviceName: currentUser.name, status: "已接单", createTime: new Date().toISOString() });
-        saveToLocal();
+        platformData.orders.push({
+            demandId, serviceId: currentUser.id, serviceName: currentUser.name,
+            status: "已接单", createTime: new Date().toISOString()
+        });
+        await saveToGitHub();
         showToast("接单成功，请等待发布方联系");
         renderDemands();
         renderMyOrders();
     };
-    function renderPublish() {
-        if(!canPublish()) { document.getElementById('pageContainer').innerHTML = `<div class="card"><p>您无权发布需求，请先登录并完成实名认证。</p></div>`; return; }
+    
+    async function renderPublish() {
+        if(!canPublish()) {
+            document.getElementById('pageContainer').innerHTML = `<div class="card"><p>您无权发布需求，请先登录并完成实名认证。</p></div>`;
+            return;
+        }
         let html = `<div class="card"><div class="card-header">✍️ 发布新需求</div>
             <div class="form-group"><label>需求标题</label><input id="pubTitle" placeholder="例：寻找深圳代理记账合作"></div>
             <div class="form-group"><label>需求描述</label><textarea id="pubDesc" rows="3" placeholder="详细说明工作内容、要求等"></textarea></div>
-            <div class="form-group"><label>预算(元)</label><input type="number" id="pubBudget" placeholder="0"></div>
+            <div class="form-group"><label>预算(元) <span style="color:#c2410c;">(建议不低于${DEFAULT_BUDGET}元)</span></label><input type="number" id="pubBudget" value="${DEFAULT_BUDGET}"></div>
             <div class="form-group"><label>所在地区</label><select id="pubRegion"><option>深圳</option><option>广州</option><option>东莞</option></select></div>
             <div class="form-group"><label>服务类型</label><select id="pubType"><option>代理记账</option><option>出口退税</option><option>工商服务</option></select></div>
             <button class="btn-sm btn-primary" id="submitDemandBtn">提交需求</button>
         </div>`;
         document.getElementById('pageContainer').innerHTML = html;
-        document.getElementById('submitDemandBtn').onclick = () => {
+        document.getElementById('submitDemandBtn').onclick = async () => {
             let title = document.getElementById('pubTitle').value, desc = document.getElementById('pubDesc').value, budget = parseFloat(document.getElementById('pubBudget').value);
             let region = document.getElementById('pubRegion').value, type = document.getElementById('pubType').value;
-            if(!title || !desc || isNaN(budget)) { showToast("请完整填写信息", true); return; }
-            let newId = "d" + Date.now();
-            demands.unshift({ id: newId, title, description: desc, budget, region, type, publisherId: currentUser.id, publisherName: currentUser.name, publishTime: new Date().toISOString().slice(0,10), status: "active", acceptedBy: null });
-            saveToLocal();
+            if(!title || !desc || isNaN(budget) || budget <= 0) { showToast("请完整填写信息且预算必须大于0", true); return; }
+            if(budget < DEFAULT_BUDGET && !confirm("预算低于平台建议值，可能影响接单意愿，是否继续？")) return;
+            const newDemand = {
+                id: 'd' + Date.now(),
+                title, description: desc, budget, region, type,
+                publisherId: currentUser.id, publisherName: currentUser.name,
+                publishTime: new Date().toISOString().slice(0,10), status: "active", acceptedBy: null
+            };
+            platformData.demands.unshift(newDemand);
+            await saveToGitHub();
             showToast("需求发布成功");
             renderDemands();
             switchPage('demands');
         };
     }
+    
     function renderMyOrders() {
-        let myOrdersList = orders.filter(o => o.serviceId === currentUser.id);
-        let myPublish = demands.filter(d => d.publisherId === currentUser.id);
+        let myOrdersList = platformData.orders.filter(o => o.serviceId === currentUser.id);
+        let myPublish = platformData.demands.filter(d => d.publisherId === currentUser.id);
         let html = `<div class="card"><div class="card-header">📦 我接单的需求</div>`;
         if(myOrdersList.length===0) html+=`<p>暂无接单记录</p>`;
-        else html+= `<table style="width:100%"><tr><th>需求标题</th><th>预算</th><th>状态</th></tr>` + myOrdersList.map(o => { let d = demands.find(dm=>dm.id===o.demandId); return `<tr><td>${d?.title||''}</td><td>${d?.budget||0}</td><td>${o.status}</td></tr>`; }).join('') + `</table>`;
+        else html+= `<table style="width:100%"><thead><tr><th>需求标题</th><th>预算</th><th>状态</th></tr></thead><tbody>` + myOrdersList.map(o => { let d = platformData.demands.find(dm=>dm.id===o.demandId); return `<tr><td>${d?.title||''}</td><td class="price-highlight">¥${d?.budget||0}</td><td>${o.status}</td></tr>`; }).join('') + `</tbody></table>`;
         html+=`</div><div class="card"><div class="card-header">📄 我发布的需求</div>`;
         if(myPublish.length===0) html+=`<p>暂无发布</p>`;
-        else html+= `<table style="width:100%"><tr><th>标题</th><th>预算</th><th>状态</th></tr>` + myPublish.map(d => `<tr><td>${d.title}</td><td>${d.budget}</td><td>${d.acceptedBy ? '已接单' : '进行中'}</td></tr>`).join('') + `</table>`;
+        else html+= `<table style="width:100%"><thead><tr><th>标题</th><th>预算</th><th>状态</th></tr></thead><tbody>` + myPublish.map(d => `<tr><td>${d.title}</td><td class="price-highlight">¥${d.budget}</td><td>${d.acceptedBy ? '已接单' : '进行中'}</td></tr>`).join('') + `</tbody></table>`;
         html+=`</div>`;
         document.getElementById('pageContainer').innerHTML = html;
     }
-    function renderApplyService() {
+    
+    async function renderApplyService() {
         if(currentUser.role === 'service') { document.getElementById('pageContainer').innerHTML = `<div class="card"><p>您已经是服务商，无需重复申请。</p></div>`; return; }
         let html = `<div class="card"><div class="card-header">🏢 申请成为服务商</div><div class="form-group"><label>机构/个人名称</label><input id="appName"></div><div class="form-group"><label>联系电话</label><input id="appPhone"></div><div class="form-group"><label>简介/优势</label><textarea id="appReason" rows="3"></textarea></div><button class="btn-sm btn-primary" id="submitApplyBtn">提交申请</button></div>`;
         document.getElementById('pageContainer').innerHTML = html;
-        document.getElementById('submitApplyBtn').onclick = () => {
+        document.getElementById('submitApplyBtn').onclick = async () => {
             let name = document.getElementById('appName').value, phone = document.getElementById('appPhone').value, reason = document.getElementById('appReason').value;
             if(!name || !phone) { showToast("请填写完整", true); return; }
-            serviceApplications.push({ name, phone, reason, userId: currentUser.id, status: "pending" });
-            saveToLocal();
+            platformData.applications.push({
+                id: 'app'+Date.now(), name, phone, reason, userId: currentUser.id, status: "pending", createdAt: new Date().toISOString()
+            });
+            await saveToGitHub();
             showToast("申请已提交，等待管理员审核");
             switchPage('demands');
         };
     }
-    function renderAdmin() {
+    
+    async function renderAdmin() {
         if(!isAdmin()) { document.getElementById('pageContainer').innerHTML = `<div class="card"><p>无权限访问</p></div>`; return; }
-        let pendingApps = serviceApplications.filter(a=>a.status==='pending');
-        let allUsers = users.filter(u=>u.id!=='admin');
+        let pendingApps = platformData.applications.filter(a=>a.status==='pending');
         let html = `<div class="card"><div class="card-header">👥 服务商入驻审核</div>`;
         if(pendingApps.length===0) html+=`<p>暂无待审核申请</p>`;
         else html+= pendingApps.map((app,idx)=>`
-            <div style="border-bottom:1px solid #eee; padding:12px;"><b>${app.name}</b> (${app.phone})<br>简介: ${app.reason}<br>
-            <button class="btn-sm" onclick="approveApply(${idx})">通过</button> <button class="btn-sm" onclick="rejectApply(${idx})">拒绝</button></div>
+            <div style="border-bottom:1px solid #eee; padding:12px;"><b>${escapeHtml(app.name)}</b> (${app.phone})<br>简介: ${escapeHtml(app.reason)}<br>
+            <button class="btn-sm" onclick="approveApply('${app.id}')">通过</button> <button class="btn-sm" onclick="rejectApply('${app.id}')">拒绝</button></div>
         `).join('');
-        html+=`</div><div class="card"><div class="card-header">📋 系统用户列表</div><table style="width:100%"><tr><th>用户名</th><th>角色</th></tr>`+allUsers.map(u=>`<tr><td>${u.name}</td><td>${u.role}</td></tr>`).join('')+`</table></div>`;
+        html+=`</div><div class="card"><div class="card-header">📊 系统用户列表</div><table style="width:100%"><thead><tr><th>用户名</th><th>角色</th><th>手机号</th></tr></thead><tbody>` + platformData.users.map(u => `<tr><td>${escapeHtml(u.name)}</td><td>${u.role}</td><td>${u.phone||''}</td></tr>`).join('') + `</tbody></table></div>`;
         document.getElementById('pageContainer').innerHTML = html;
     }
-    window.approveApply = function(idx) {
-        let app = serviceApplications[idx];
+    
+    window.approveApply = async function(appId) {
+        let app = platformData.applications.find(a=>a.id===appId);
         if(!app) return;
         app.status = 'approved';
-        // 将用户升级为服务商
-        let user = users.find(u=>u.id===app.userId);
-        if(user) { user.role = 'service'; user.realName = app.name; }
-        saveToLocal();
+        let user = platformData.users.find(u=>u.id===app.userId);
+        if(user) { user.role = 'service'; user.realName = app.name; user.name = app.name; }
+        await saveToGitHub();
         showToast("审核通过，用户已升级为服务商");
         renderAdmin();
     };
-    window.rejectApply = function(idx) { serviceApplications.splice(idx,1); saveToLocal(); renderAdmin(); };
-
-    // 登录模拟
-    function showLoginModal() {
+    window.rejectApply = async function(appId) {
+        let idx = platformData.applications.findIndex(a=>a.id===appId);
+        if(idx!==-1) platformData.applications.splice(idx,1);
+        await saveToGitHub();
+        renderAdmin();
+    };
+    
+    // 登录/注册
+    function showAuthModal() {
         let modal = document.getElementById('globalModal');
         document.getElementById('modalBody').innerHTML = `
-            <h3>登录/注册</h3>
-            <div class="form-group"><label>选择身份</label><select id="loginRoleSelect"><option value="user">实名用户</option><option value="service">服务商</option><option value="admin">管理员</option></select></div>
-            <div class="form-group"><label>手机号/账号</label><input id="loginPhone" placeholder="演示账号: 13800138001"></div>
-            <div class="form-group"><label>验证码(模拟)</label><input id="loginCode" placeholder="输入123456"></div>
-            <p style="font-size:0.7rem; color:#aaa;">演示账号：管理员admin/任意密码；服务商：13800138001；普通用户：13800138002</p>
+            <h3>登录 / 注册</h3>
+            <div class="form-group"><label>手机号</label><input id="authPhone" placeholder="11位手机号"></div>
+            <div class="form-group"><label>姓名/昵称</label><input id="authName" placeholder="姓名或昵称"></div>
+            <div class="form-group"><label>验证码(模拟)</label><input id="authCode" placeholder="输入123456"></div>
+            <div style="display:flex; gap:12px;"><button id="doLoginBtn" class="btn-sm btn-primary">登录</button><button id="doRegisterBtn" class="btn-sm">注册</button></div>
         `;
         let confirm = document.getElementById('modalConfirm');
-        confirm.onclick = () => {
-            let role = document.getElementById('loginRoleSelect').value;
-            let phone = document.getElementById('loginPhone').value;
-            let code = document.getElementById('loginCode').value;
+        confirm.style.display = 'none';
+        document.getElementById('doLoginBtn').onclick = async () => {
+            let phone = document.getElementById('authPhone').value;
+            let code = document.getElementById('authCode').value;
             if(code !== '123456') { showToast("验证码错误", true); return; }
-            if(role === 'admin') { currentUser = users.find(u=>u.role==='admin'); if(!currentUser) currentUser = users[0]; }
-            else if(role === 'service') { let u = users.find(u=>u.phone===phone && u.role==='service'); if(u) currentUser = u; else { showToast("服务商账号不存在，请先入驻", true); return; } }
-            else { let u = users.find(u=>u.phone===phone && u.role==='user'); if(u) currentUser = u; else { currentUser = { id: "u"+Date.now(), name: phone, role: "user", phone, verified: true }; users.push(currentUser); saveToLocal(); } }
+            let user = platformData.users.find(u => u.phone === phone);
+            if(!user) { showToast("用户不存在，请先注册", true); return; }
+            currentUser = { ...user };
             updateUIByRole();
             closeModal();
             showToast(`欢迎 ${currentUser.name}`);
+            renderAll();
+            switchPage('demands');
+        };
+        document.getElementById('doRegisterBtn').onclick = async () => {
+            let phone = document.getElementById('authPhone').value;
+            let name = document.getElementById('authName').value;
+            let code = document.getElementById('authCode').value;
+            if(!phone || !name) { showToast("请填写完整", true); return; }
+            if(code !== '123456') { showToast("验证码错误", true); return; }
+            if(platformData.users.find(u => u.phone === phone)) { showToast("手机号已注册", true); return; }
+            const newUser = {
+                id: 'u'+Date.now(), name, phone, role: 'user', realName: name, verified: true, createdAt: new Date().toISOString()
+            };
+            platformData.users.push(newUser);
+            await saveToGitHub();
+            currentUser = { ...newUser };
+            updateUIByRole();
+            closeModal();
+            showToast(`注册成功，欢迎 ${currentUser.name}`);
+            renderAll();
             switchPage('demands');
         };
         modal.style.display = 'flex';
     }
-    function logout() { currentUser = { id: "guest", name: "游客", role: "guest", verified: false }; updateUIByRole(); switchPage('demands'); showToast("已退出"); }
+    
+    function logout() {
+        currentUser = { id: "guest", name: "游客", role: "guest" };
+        updateUIByRole();
+        renderAll();
+        switchPage('demands');
+        showToast("已退出");
+    }
+    
     function updateUIByRole() {
-        let userSpan = document.getElementById('userRoleBadge');
-        if(userSpan) userSpan.innerText = currentUser.role === 'admin' ? '管理员' : (currentUser.role === 'service' ? '服务商' : (currentUser.role === 'user' ? '实名用户' : '游客'));
+        let roleSpan = document.getElementById('userRoleBadge');
+        roleSpan.innerText = currentUser.role === 'admin' ? '管理员' : (currentUser.role === 'service' ? '服务商' : (currentUser.role === 'user' ? '实名用户' : '游客'));
         document.getElementById('loginBtn').style.display = currentUser.role === 'guest' ? 'inline-block' : 'none';
         document.getElementById('logoutBtn').style.display = currentUser.role !== 'guest' ? 'inline-block' : 'none';
         let adminMenu = document.getElementById('adminMenu');
         if(adminMenu) adminMenu.style.display = isAdmin() ? 'flex' : 'none';
     }
+    
     function closeModal() { document.getElementById('globalModal').style.display = 'none'; }
     document.getElementById('modalCancel').onclick = closeModal;
-
-    // 页面切换
-    function switchPage(page) {
+    document.getElementById('loginBtn').onclick = showAuthModal;
+    document.getElementById('logoutBtn').onclick = logout;
+    
+    // 页面路由
+    async function switchPage(page) {
         document.querySelectorAll('.nav-item').forEach(item=>item.classList.remove('active'));
-        document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+        let target = document.querySelector(`.nav-item[data-page="${page}"]`);
+        if(target) target.classList.add('active');
         let titleMap = { demands:'需求大厅', publish:'发布需求', myOrders:'我的订单', applyService:'服务商入驻', admin:'管理后台' };
         document.getElementById('pageTitle').innerText = titleMap[page] || '需求大厅';
-        if(page === 'demands') renderDemands();
-        else if(page === 'publish') renderPublish();
+        if(page === 'demands') await renderDemands();
+        else if(page === 'publish') await renderPublish();
         else if(page === 'myOrders') renderMyOrders();
-        else if(page === 'applyService') renderApplyService();
-        else if(page === 'admin') renderAdmin();
+        else if(page === 'applyService') await renderApplyService();
+        else if(page === 'admin') await renderAdmin();
     }
     document.querySelectorAll('.nav-item[data-page]').forEach(item => {
         item.addEventListener('click', () => switchPage(item.getAttribute('data-page')));
     });
-    document.getElementById('loginBtn').onclick = showLoginModal;
-    document.getElementById('logoutBtn').onclick = logout;
-    function escapeHtml(s) { return String(s).replace(/[&<>]/g, m=> m==='&'?'&amp;':(m==='<'?'&lt;':'&gt;')); }
+    
+    function renderAll() {
+        let currentPage = document.querySelector('.nav-item.active')?.getAttribute('data-page') || 'demands';
+        switchPage(currentPage);
+    }
+    
     // 初始化
-    updateUIByRole();
-    switchPage('demands');
+    async function init() {
+        if (GITHUB_CONFIG.owner === '你的GitHub用户名' || GITHUB_CONFIG.token === '你的私人令牌') {
+            showToast("请先在代码中配置 GitHub 用户名、仓库名和 Token", true);
+            initDefaultData();
+            renderAll();
+            updateUIByRole();
+        } else {
+            await loadFromGitHub();
+            updateUIByRole();
+        }
+    }
+    init();
 </script>
 </body>
 </html>
