@@ -5,19 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>联达信财税 · 全行业财税服务</title>
     <style>
-        /* ===== 全局 ===== */
+        /* ===== 全局重置 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #0b0a0c;
             color: #ece8e0;
             overflow-x: hidden;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(247, 201, 72, 0.3);
+            border-radius: 8px;
+        }
+
         /* ===== 动态背景 ===== */
         #bg-canvas {
             position: fixed;
@@ -27,7 +39,7 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            background: radial-gradient(ellipse at 40% 20%, #1a1308 0%, #0b0a0c 70%);
+            background: radial-gradient(ellipse at 30% 20%, #1a1308 0%, #0b0a0c 70%);
         }
         .gradient-glow {
             position: fixed;
@@ -38,8 +50,9 @@
             z-index: 1;
             pointer-events: none;
             background:
-                radial-gradient(circle at 70% 10%, rgba(247, 201, 72, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 20% 90%, rgba(255, 140, 0, 0.04) 0%, transparent 50%);
+                radial-gradient(circle at 70% 10%, rgba(247, 201, 72, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 20% 90%, rgba(255, 140, 0, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(247, 201, 72, 0.02) 0%, transparent 70%);
         }
         .content {
             position: relative;
@@ -50,6 +63,7 @@
             margin: 0 auto;
             padding: 0 32px;
         }
+
         /* ===== 毛玻璃导航 ===== */
         .navbar {
             position: fixed;
@@ -58,38 +72,38 @@
             transform: translateX(-50%);
             width: calc(100% - 40px);
             max-width: 1200px;
-            padding: 12px 28px;
-            background: rgba(11, 10, 12, 0.55);
-            backdrop-filter: blur(20px) saturate(1.5);
-            -webkit-backdrop-filter: blur(20px) saturate(1.5);
-            border: 1px solid rgba(247, 201, 72, 0.12);
+            padding: 10px 28px;
+            background: rgba(11, 10, 12, 0.45);
+            backdrop-filter: blur(24px) saturate(1.6);
+            -webkit-backdrop-filter: blur(24px) saturate(1.6);
+            border: 1px solid rgba(247, 201, 72, 0.08);
             border-radius: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 999;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
         .navbar.scrolled {
             top: 8px;
-            background: rgba(11, 10, 12, 0.8);
-            border-color: rgba(247, 201, 72, 0.18);
+            background: rgba(11, 10, 12, 0.75);
+            border-color: rgba(247, 201, 72, 0.15);
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
         }
         .nav-logo {
             font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #F7C948, #FF8C00);
+            background: linear-gradient(135deg, #F7C948 0%, #FF8C00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .nav-logo span {
             font-weight: 300;
-            color: rgba(255, 255, 255, 0.35);
-            -webkit-text-fill-color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.3);
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
             font-size: 15px;
             margin-left: 6px;
         }
@@ -100,7 +114,7 @@
             list-style: none;
         }
         .nav-links a {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.55);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -115,7 +129,7 @@
             width: 0;
             height: 2px;
             background: linear-gradient(90deg, #F7C948, #FF8C00);
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
         .nav-links a:hover {
             color: #fff;
@@ -131,11 +145,11 @@
             font-weight: 600 !important;
             font-size: 13px !important;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 16px rgba(247, 201, 72, 0.2);
+            box-shadow: 0 4px 16px rgba(247, 201, 72, 0.15);
         }
         .nav-cta:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 8px 32px rgba(247, 201, 72, 0.35);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 8px 32px rgba(247, 201, 72, 0.3);
             color: #0b0a0c !important;
         }
         .nav-cta::after {
@@ -173,28 +187,54 @@
         }
         .hero-badge {
             display: inline-block;
-            background: rgba(247, 201, 72, 0.08);
-            border: 1px solid rgba(247, 201, 72, 0.15);
+            background: rgba(247, 201, 72, 0.06);
+            border: 1px solid rgba(247, 201, 72, 0.12);
             border-radius: 40px;
-            padding: 6px 20px;
-            font-size: 12px;
+            padding: 5px 20px;
+            font-size: 11px;
             font-weight: 500;
             color: #F7C948;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 24px;
         }
+        .hero-badge .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin-right: 8px;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.6);
+            }
+        }
         .hero-title {
-            font-size: clamp(44px, 7vw, 72px);
+            font-size: clamp(44px, 7vw, 76px);
             font-weight: 800;
-            line-height: 1.08;
+            line-height: 1.05;
             letter-spacing: -2px;
             color: #fff;
-            text-shadow: 0 0 40px rgba(247, 201, 72, 0.06);
+            text-shadow: 0 0 60px rgba(247, 201, 72, 0.05);
             margin-bottom: 20px;
         }
         .hero-title .gold {
-            background: linear-gradient(135deg, #F7C948, #FF8C00);
+            background: linear-gradient(135deg, #F7C948 0%, #FF8C00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-title .gold-light {
+            background: linear-gradient(135deg, #F7C948 0%, #f5b342 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -202,26 +242,29 @@
         .hero-sub {
             font-size: 17px;
             line-height: 1.9;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.45);
             max-width: 480px;
             margin-bottom: 28px;
         }
         .hero-stats-mini {
             display: flex;
-            gap: 36px;
+            gap: 40px;
             margin-bottom: 32px;
         }
         .hero-stats-mini .item {
             text-align: left;
         }
         .hero-stats-mini .number {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 700;
-            color: #F7C948;
+            background: linear-gradient(135deg, #F7C948, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .hero-stats-mini .label {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.3);
         }
         .hero-actions {
             display: flex;
@@ -229,44 +272,61 @@
             gap: 14px;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #F7C948, #FF8C00);
+            background: linear-gradient(135deg, #F7C948 0%, #FF8C00 100%);
             color: #0b0a0c;
-            padding: 14px 40px;
+            padding: 14px 44px;
             border-radius: 60px;
             font-weight: 700;
             font-size: 15px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 6px 24px rgba(247, 201, 72, 0.2);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 6px 24px rgba(247, 201, 72, 0.15);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #f5b342 0%, #e07c00 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .btn-primary:hover::before {
+            opacity: 1;
         }
         .btn-primary:hover {
-            transform: translateY(-4px);
+            transform: translateY(-4px) scale(1.02);
             box-shadow: 0 12px 48px rgba(247, 201, 72, 0.35);
         }
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             color: #fff;
-            padding: 14px 36px;
+            padding: 14px 38px;
             border-radius: 60px;
             font-weight: 600;
             font-size: 15px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(247, 201, 72, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(247, 201, 72, 0.15);
             transform: translateY(-4px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
@@ -275,52 +335,55 @@
             justify-content: center;
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px) saturate(1.6);
-            -webkit-backdrop-filter: blur(20px) saturate(1.6);
-            border: 1px solid rgba(247, 201, 72, 0.08);
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(24px) saturate(1.6);
+            -webkit-backdrop-filter: blur(24px) saturate(1.6);
+            border: 1px solid rgba(247, 201, 72, 0.06);
             border-radius: 28px;
             padding: 40px 36px;
             width: 100%;
             max-width: 420px;
             box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
-            transition: all 0.4s;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .glass-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(247, 201, 72, 0.15);
+            transform: translateY(-8px);
+            border-color: rgba(247, 201, 72, 0.12);
             box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
         }
         .glass-card .stat-row {
             display: flex;
             justify-content: space-between;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         .glass-card .stat-row:last-child {
             border-bottom: none;
         }
         .glass-card .stat-label {
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.3);
             font-size: 14px;
+            font-weight: 400;
         }
         .glass-card .stat-value {
             font-size: 22px;
             font-weight: 700;
             color: #fff;
+            letter-spacing: -0.3px;
         }
         .glass-card .stat-value .gold {
             color: #F7C948;
         }
         .stat-tag {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #F7C948;
-            background: rgba(247, 201, 72, 0.08);
+            background: rgba(247, 201, 72, 0.06);
             padding: 2px 12px;
             border-radius: 20px;
             margin-left: 6px;
             display: inline-block;
+            letter-spacing: 0.5px;
         }
 
         /* ===== 通用章节 ===== */
@@ -329,20 +392,20 @@
         }
         .section-header {
             text-align: center;
-            max-width: 800px;
+            max-width: 780px;
             margin: 0 auto 52px;
         }
         .section-header .label {
             display: inline-block;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: #F7C948;
-            background: rgba(247, 201, 72, 0.06);
+            background: rgba(247, 201, 72, 0.04);
             padding: 4px 18px;
             border-radius: 40px;
-            border: 1px solid rgba(247, 201, 72, 0.08);
+            border: 1px solid rgba(247, 201, 72, 0.06);
             margin-bottom: 12px;
         }
         .section-header h2 {
@@ -350,6 +413,7 @@
             font-weight: 700;
             letter-spacing: -1px;
             color: #fff;
+            line-height: 1.15;
         }
         .section-header h2 .gold {
             background: linear-gradient(135deg, #F7C948, #FF8C00);
@@ -358,15 +422,15 @@
             background-clip: text;
         }
         .section-header p {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             font-size: 17px;
-            line-height: 1.8;
-            margin-top: 8px;
+            line-height: 1.9;
+            margin-top: 10px;
         }
 
         /* ===== 服务全覆盖 - 分类展示 ===== */
         .service-category {
-            margin-bottom: 48px;
+            margin-bottom: 44px;
         }
         .service-category:last-child {
             margin-bottom: 0;
@@ -380,50 +444,55 @@
             align-items: center;
             gap: 12px;
         }
-        .service-category .cat-title .gold {
-            color: #F7C948;
+        .service-category .cat-title .accent-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(247, 201, 72, 0.15), transparent);
+            max-width: 120px;
         }
         .service-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
         }
         .service-tag {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 30px;
-            padding: 8px 20px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            transition: all 0.3s;
+            padding: 7px 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             backdrop-filter: blur(4px);
             cursor: default;
+            letter-spacing: 0.2px;
         }
         .service-tag:hover {
-            background: rgba(247, 201, 72, 0.05);
-            border-color: rgba(247, 201, 72, 0.15);
+            background: rgba(247, 201, 72, 0.04);
+            border-color: rgba(247, 201, 72, 0.12);
             color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         .service-tag .icon {
             margin-right: 6px;
         }
 
-        /* 全行业覆盖标语 */
         .coverage-badge {
             text-align: center;
-            margin-top: 20px;
-            padding: 16px;
-            background: rgba(247, 201, 72, 0.04);
-            border: 1px dashed rgba(247, 201, 72, 0.15);
+            margin-top: 24px;
+            padding: 16px 24px;
+            background: rgba(247, 201, 72, 0.03);
+            border: 1px dashed rgba(247, 201, 72, 0.08);
             border-radius: 60px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 15px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
             backdrop-filter: blur(8px);
+            letter-spacing: 0.3px;
         }
         .coverage-badge strong {
             color: #F7C948;
+            font-weight: 600;
         }
 
         /* ===== 合作单位 ===== */
@@ -431,29 +500,30 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 24px 40px;
+            gap: 16px 32px;
             margin-top: 20px;
         }
         .partner-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 40px;
             padding: 8px 20px 8px 16px;
-            transition: all 0.3s;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 14px;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 13px;
         }
         .partner-item:hover {
-            border-color: rgba(247, 201, 72, 0.12);
-            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(247, 201, 72, 0.08);
+            background: rgba(255, 255, 255, 0.03);
             color: #fff;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
         .partner-item .icon {
-            font-size: 18px;
+            font-size: 16px;
         }
 
         /* ===== 数据看板 ===== */
@@ -463,18 +533,19 @@
             gap: 20px;
         }
         .stat-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 20px;
             padding: 28px 20px;
             text-align: center;
-            transition: all 0.4s;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .stat-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(247, 201, 72, 0.10);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(247, 201, 72, 0.06);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            background: rgba(255, 255, 255, 0.02);
         }
         .stat-card .number {
             font-size: 38px;
@@ -484,11 +555,13 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             line-height: 1.1;
+            letter-spacing: -1px;
         }
         .stat-card .label {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 13px;
             margin-top: 6px;
+            font-weight: 400;
         }
 
         /* ===== 关于我们 ===== */
@@ -503,18 +576,19 @@
             font-weight: 700;
             color: #fff;
             margin-bottom: 16px;
+            letter-spacing: -0.5px;
         }
         .about-text h3 .gold {
             color: #F7C948;
         }
         .about-text p {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.45);
             font-size: 15px;
             line-height: 1.9;
             margin-bottom: 14px;
         }
         .about-text strong {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.75);
         }
         .about-tags {
             display: flex;
@@ -523,12 +597,14 @@
             margin-top: 16px;
         }
         .about-tags span {
-            background: rgba(247, 201, 72, 0.06);
-            border: 1px solid rgba(247, 201, 72, 0.08);
-            padding: 6px 18px;
+            background: rgba(247, 201, 72, 0.04);
+            border: 1px solid rgba(247, 201, 72, 0.06);
+            padding: 5px 18px;
             border-radius: 30px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            letter-spacing: 0.3px;
         }
         .about-image {
             display: flex;
@@ -536,78 +612,83 @@
         }
         .about-image .icon-big {
             font-size: 120px;
-            color: rgba(247, 201, 72, 0.08);
+            color: rgba(247, 201, 72, 0.04);
         }
 
         /* ===== 联系 ===== */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
+            gap: 20px;
             text-align: center;
         }
         .contact-item {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 20px;
             padding: 28px 20px;
-            transition: all 0.3s;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .contact-item:hover {
-            border-color: rgba(247, 201, 72, 0.10);
+            border-color: rgba(247, 201, 72, 0.06);
             transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.015);
         }
         .contact-item .icon {
             font-size: 28px;
             color: #F7C948;
             margin-bottom: 10px;
             display: block;
+            opacity: 0.7;
         }
         .contact-item h4 {
             color: #fff;
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 4px;
+            font-weight: 500;
         }
         .contact-item p {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             font-size: 14px;
         }
 
         /* ===== Footer ===== */
         .footer {
             padding: 40px 0 28px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
             text-align: center;
         }
         .footer .live-counter {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(247, 201, 72, 0.06);
+            border: 1px solid rgba(247, 201, 72, 0.04);
             border-radius: 40px;
             padding: 6px 20px 6px 16px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.25);
             margin-bottom: 24px;
         }
         .footer .live-counter .dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: #4ade80;
             display: inline-block;
-            animation: blink 1.4s infinite;
+            animation: blink 1.4s ease-in-out infinite;
         }
         @keyframes blink {
             0%,
             100% {
                 opacity: 1;
+                transform: scale(1);
             }
             50% {
                 opacity: 0.2;
+                transform: scale(0.7);
             }
         }
         .footer .live-counter .count {
@@ -616,18 +697,25 @@
             font-size: 18px;
             min-width: 60px;
             display: inline-block;
+            letter-spacing: 0.5px;
         }
         .footer p {
-            color: rgba(255, 255, 255, 0.12);
-            font-size: 13px;
+            color: rgba(255, 255, 255, 0.08);
+            font-size: 12px;
+            letter-spacing: 0.5px;
         }
         .footer a {
-            color: rgba(247, 201, 72, 0.2);
+            color: rgba(247, 201, 72, 0.15);
             text-decoration: none;
             transition: color 0.3s;
         }
         .footer a:hover {
-            color: rgba(247, 201, 72, 0.4);
+            color: rgba(247, 201, 72, 0.3);
+        }
+        .footer .footer-divider {
+            display: inline-block;
+            margin: 0 10px;
+            color: rgba(255, 255, 255, 0.04);
         }
 
         /* ===== 响应式 ===== */
@@ -665,7 +753,7 @@
                 backdrop-filter: blur(24px);
                 padding: 20px;
                 border-radius: 24px;
-                border: 1px solid rgba(247, 201, 72, 0.06);
+                border: 1px solid rgba(247, 201, 72, 0.04);
                 gap: 14px;
                 align-items: center;
             }
@@ -696,8 +784,18 @@
                 gap: 8px;
             }
             .service-tag {
-                font-size: 13px;
-                padding: 6px 14px;
+                font-size: 12px;
+                padding: 5px 14px;
+            }
+            .service-category .cat-title {
+                font-size: 17px;
+            }
+            .partners-grid {
+                gap: 10px 20px;
+            }
+            .partner-item {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
             }
         }
         @media (max-width: 480px) {
@@ -713,12 +811,14 @@
                 width: 100%;
                 justify-content: center;
             }
-            .partners-grid {
-                gap: 12px;
+            .hero-stats-mini {
+                gap: 16px;
             }
-            .partner-item {
-                padding: 6px 14px;
-                font-size: 13px;
+            .hero-stats-mini .number {
+                font-size: 24px;
+            }
+            .glass-card .stat-value {
+                font-size: 18px;
             }
         }
 
@@ -733,7 +833,8 @@
     <div class="gradient-glow"></div>
 
     <div class="content">
-        <!-- 导航 -->
+
+        <!-- ===== 导航 ===== -->
         <nav class="navbar" id="navbar">
             <div class="nav-logo">联达信<span>财税</span></div>
             <ul class="nav-links" id="navLinks">
@@ -741,21 +842,23 @@
                 <li><a href="#services">服务</a></li>
                 <li><a href="#about">关于</a></li>
                 <li><a href="#contact">联系</a></li>
-                <li><a href="#" class="nav-cta">免费咨询</a></li>
+                <li><a href="#contact" class="nav-cta">免费咨询</a></li>
             </ul>
             <button class="nav-toggle" id="navToggle" aria-label="菜单">
                 <span></span><span></span><span></span>
             </button>
         </nav>
 
-        <!-- Hero -->
+        <!-- ===== Hero ===== -->
         <section class="hero">
             <div class="container">
                 <div class="hero-grid">
                     <div class="hero-left">
-                        <div class="hero-badge">✦ 全行业财税服务 · 一站式解决</div>
+                        <div class="hero-badge">
+                            <span class="dot"></span> 全行业财税服务 · 一站式解决
+                        </div>
                         <h1 class="hero-title">
-                            覆盖 <span class="gold">全行业</span><br />财税服务 <span class="gold">专家</span>
+                            覆盖 <span class="gold">全行业</span><br />财税服务 <span class="gold-light">专家</span>
                         </h1>
                         <p class="hero-sub">
                             从工商注册到税务筹划，从初创企业到上市公司，我们提供全方位、定制化的财税解决方案。
@@ -767,7 +870,7 @@
                             <div class="item"><div class="number">100+</div><div class="label">合作单位</div></div>
                         </div>
                         <div class="hero-actions">
-                            <a href="#" class="btn-primary">📞 立即咨询</a>
+                            <a href="#contact" class="btn-primary"><span>📞 立即咨询</span></a>
                             <a href="#services" class="btn-secondary">探索服务 →</a>
                         </div>
                     </div>
@@ -776,7 +879,7 @@
                             <div class="stat-row"><span class="stat-label">🏢 服务企业</span><span class="stat-value">1,600<span class="gold">+</span></span></div>
                             <div class="stat-row"><span class="stat-label">🤝 合作单位</span><span class="stat-value">100<span class="gold">+</span></span></div>
                             <div class="stat-row"><span class="stat-label">⭐ TSC评级</span><span class="stat-value"><span class="gold">TSC5</span> <span class="stat-tag">最高级</span></span></div>
-                            <div class="stat-row"><span class="stat-label">🏆 连续四年</span><span class="stat-value" style="font-size:17px;"><span class="gold">2022-2025</span> TSC5</span></div>
+                            <div class="stat-row"><span class="stat-label">🏆 连续四年</span><span class="stat-value" style="font-size:17px;"><span class="gold">2022–2025</span> TSC5</span></div>
                             <div class="stat-row" style="border-bottom:none;"><span class="stat-label">📋 服务范围</span><span class="stat-value" style="font-size:16px;">全行业 <span class="gold">全覆盖</span></span></div>
                         </div>
                     </div>
@@ -784,7 +887,7 @@
             </div>
         </section>
 
-        <!-- 服务板块 - 全行业覆盖 -->
+        <!-- ===== 服务板块 ===== -->
         <section class="section" id="services">
             <div class="container">
                 <div class="section-header">
@@ -793,9 +896,8 @@
                     <p>覆盖工商、财税、知识产权、资质许可、金融服务等全维度，满足企业全生命周期需求</p>
                 </div>
 
-                <!-- 分类1：工商服务 -->
                 <div class="service-category">
-                    <div class="cat-title">🏢 工商服务</div>
+                    <div class="cat-title">🏢 工商服务 <span class="accent-line"></span></div>
                     <div class="service-tags">
                         <span class="service-tag">公司注册</span>
                         <span class="service-tag">分公司设立</span>
@@ -809,9 +911,8 @@
                     </div>
                 </div>
 
-                <!-- 分类2：财税服务 -->
                 <div class="service-category">
-                    <div class="cat-title">📊 财税服务</div>
+                    <div class="cat-title">📊 财税服务 <span class="accent-line"></span></div>
                     <div class="service-tags">
                         <span class="service-tag">代理记账</span>
                         <span class="service-tag">纳税申报</span>
@@ -826,9 +927,8 @@
                     </div>
                 </div>
 
-                <!-- 分类3：知识产权 -->
                 <div class="service-category">
-                    <div class="cat-title">™️ 知识产权</div>
+                    <div class="cat-title">™️ 知识产权 <span class="accent-line"></span></div>
                     <div class="service-tags">
                         <span class="service-tag">商标注册</span>
                         <span class="service-tag">商标转让</span>
@@ -841,9 +941,8 @@
                     </div>
                 </div>
 
-                <!-- 分类4：资质许可 -->
                 <div class="service-category">
-                    <div class="cat-title">🛡️ 资质许可</div>
+                    <div class="cat-title">🛡️ 资质许可 <span class="accent-line"></span></div>
                     <div class="service-tags">
                         <span class="service-tag">食品经营许可</span>
                         <span class="service-tag">卫生许可</span>
@@ -857,9 +956,8 @@
                     </div>
                 </div>
 
-                <!-- 分类5：金融服务 -->
                 <div class="service-category">
-                    <div class="cat-title">💰 金融及专项服务</div>
+                    <div class="cat-title">💰 金融及专项服务 <span class="accent-line"></span></div>
                     <div class="service-tags">
                         <span class="service-tag">创业补贴申请</span>
                         <span class="service-tag">高新认定</span>
@@ -872,14 +970,13 @@
                     </div>
                 </div>
 
-                <!-- 全行业覆盖声明 -->
                 <div class="coverage-badge">
-                    <strong>✦ 覆盖全行业：</strong> 科技、电商、制造、贸易、餐饮、教育、医疗、建筑、金融、物流、文化创意…… 任何行业，我们都专业应对。
+                    <strong>✦ 覆盖全行业：</strong> 科技 · 电商 · 制造 · 贸易 · 餐饮 · 教育 · 医疗 · 建筑 · 金融 · 物流 · 文化创意 …… 任何行业，我们都专业应对。
                 </div>
             </div>
         </section>
 
-        <!-- 合作单位展示 -->
+        <!-- ===== 合作单位 ===== -->
         <section class="section" style="padding-top:0;">
             <div class="container">
                 <div class="section-header">
@@ -898,11 +995,11 @@
                     <div class="partner-item"><span class="icon">📋</span> 多家会计师事务所</div>
                     <div class="partner-item"><span class="icon">⚖️</span> 知名律师事务所</div>
                 </div>
-                <p style="text-align:center;margin-top:24px;color:rgba(255,255,255,0.2);font-size:14px;">—— 以上仅为部分代表，更多合作伙伴持续拓展中 ——</p>
+                <p style="text-align:center;margin-top:24px;color:rgba(255,255,255,0.12);font-size:13px;letter-spacing:1px;">—— 以上仅为部分代表，更多合作伙伴持续拓展中 ——</p>
             </div>
         </section>
 
-        <!-- 数据看板 -->
+        <!-- ===== 数据看板 ===== -->
         <section class="section" style="padding-top:0;">
             <div class="container">
                 <div class="section-header">
@@ -913,7 +1010,7 @@
                 <div class="stats-grid">
                     <div class="stat-card"><div class="number">1,600+</div><div class="label">服务企业</div></div>
                     <div class="stat-card"><div class="number">100+</div><div class="label">合作单位</div></div>
-                    <div class="stat-card"><div class="number">7年</div><div class="label">行业经验</div></div>
+                    <div class="stat-card"><div class="number">7年</div><div class="label">行业深耕</div></div>
                     <div class="stat-card"><div class="number">TSC5</div><div class="label">连续四年最高信用</div></div>
                     <div class="stat-card"><div class="number">451</div><div class="label">信用积分</div></div>
                     <div class="stat-card"><div class="number">100%</div><div class="label">客户满意度</div></div>
@@ -921,8 +1018,8 @@
             </div>
         </section>
 
-        <!-- 关于我们 -->
-        <section class="section" id="about" style="background: rgba(255,255,255,0.01);">
+        <!-- ===== 关于我们 ===== -->
+        <section class="section" id="about" style="background: rgba(255,255,255,0.005);">
             <div class="container">
                 <div class="about-grid">
                     <div class="about-text">
@@ -931,15 +1028,15 @@
                             <strong>深圳联达信财税代理有限公司</strong> 成立于2018年，是经深圳市财政局核准的专业财税服务机构。公司立足龙岗，服务全深圳，辐射大湾区。
                         </p>
                         <p>
-                            我们拥有一支经验丰富的专业团队，主管人员财税经验超过10年。公司连续四年（2022-2025）被深圳市税务局评为 <strong>TSC5级</strong> 涉税专业服务机构（最高等级），信用积分451分。
+                            我们拥有一支经验丰富的专业团队，主管人员财税经验超过10年。公司连续四年（2022–2025）被深圳市税务局评为 <strong>TSC5级</strong> 涉税专业服务机构（最高等级），信用积分451分。
                         </p>
                         <p>
-                            截至目前，我们已累计服务企业超过 <strong>1,600</strong> 家，与 <strong>上百家</strong> 政府机构、产业园区、金融机构等建立了深度合作关系。我们深知每一个行业都有其独特的财税痛点，因此我们坚持“全行业覆盖、定制化服务”的理念，无论是科技、制造、贸易还是服务行业，我们都能精准匹配解决方案。
+                            截至目前，我们已累计服务企业超过 <strong>1,600</strong> 家，与 <strong>上百家</strong> 政府机构、产业园区、金融机构等建立了深度合作关系。我们坚持“全行业覆盖、定制化服务”的理念，无论是科技、制造、贸易还是服务行业，我们都能精准匹配解决方案。
                         </p>
                         <div class="about-tags">
                             <span>✓ 成立7年</span>
                             <span>✓ 服务1,600+企业</span>
-                            <span>✓ TSC5级（2022-2025连续四年）</span>
+                            <span>✓ TSC5级（2022–2025连续四年）</span>
                             <span>✓ 100+合作单位</span>
                         </div>
                     </div>
@@ -950,7 +1047,7 @@
             </div>
         </section>
 
-        <!-- 联系我们 -->
+        <!-- ===== 联系我们 ===== -->
         <section class="section" id="contact">
             <div class="container">
                 <div class="section-header">
@@ -963,7 +1060,7 @@
                         <span class="icon">📞</span>
                         <h4>咨询热线</h4>
                         <p>18617005295</p>
-                        <p style="font-size:13px;color:rgba(255,255,255,0.2);">邓小姐</p>
+                        <p style="font-size:12px;color:rgba(255,255,255,0.15);margin-top:2px;">邓小姐</p>
                     </div>
                     <div class="contact-item">
                         <span class="icon">✉️</span>
@@ -974,38 +1071,42 @@
                         <span class="icon">📍</span>
                         <h4>公司地址</h4>
                         <p>深圳市龙岗区龙城街道</p>
-                        <p style="font-size:13px;color:rgba(255,255,255,0.2);">盛平社区盛龙路2号万象天成1栋1516</p>
+                        <p style="font-size:12px;color:rgba(255,255,255,0.15);">盛平社区盛龙路2号万象天成1栋1516</p>
                     </div>
                     <div class="contact-item">
                         <span class="icon">🕐</span>
                         <h4>服务时间</h4>
-                        <p>周一至周五 9:00-18:00</p>
-                        <p style="font-size:13px;color:rgba(255,255,255,0.2);">节假日可预约</p>
+                        <p>周一至周五 9:00–18:00</p>
+                        <p style="font-size:12px;color:rgba(255,255,255,0.15);">节假日可预约</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
+        <!-- ===== Footer ===== -->
         <footer class="footer">
             <div class="container">
                 <div class="live-counter">
                     <span class="dot"></span>
                     <span>访问人数</span>
                     <span class="count" id="liveCount">1,286</span>
-                    <span style="color:rgba(255,255,255,0.15);">人</span>
+                    <span style="color:rgba(255,255,255,0.10);">人</span>
                 </div>
                 <p>
-                    © 2026 深圳联达信财税代理有限公司 &nbsp;|&nbsp;
-                    <a href="#">隐私政策</a> &nbsp;·&nbsp; <a href="#">服务条款</a>
+                    © 2026 深圳联达信财税代理有限公司
+                    <span class="footer-divider">|</span>
+                    <a href="#">隐私政策</a>
+                    <span class="footer-divider">·</span>
+                    <a href="#">服务条款</a>
                 </p>
-                <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.06);">
-                    全行业财税服务专家
+                <p style="margin-top:6px;font-size:11px;color:rgba(255,255,255,0.04);letter-spacing:1px;">
+                     全行业财税服务专家
                 </p>
             </div>
         </footer>
     </div>
 
+    <!-- ===== JavaScript ===== -->
     <script>
         (function() {
             'use strict';
@@ -1014,8 +1115,11 @@
             const canvas = document.getElementById('bg-canvas');
             const ctx = canvas.getContext('2d');
             let w, h;
-            function resize() { w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight; }
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
             window.addEventListener('resize', resize);
             resize();
 
@@ -1025,10 +1129,10 @@
                 particles.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    r: Math.random() * 1.5 + 0.5,
-                    a: Math.random() * 0.3 + 0.05
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: (Math.random() - 0.5) * 0.25,
+                    r: Math.random() * 1.8 + 0.4,
+                    a: Math.random() * 0.25 + 0.04
                 });
             }
 
@@ -1053,8 +1157,8 @@
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(247, 201, 72, ${(1 - dist / 140) * 0.12})`;
-                            ctx.lineWidth = 0.6;
+                            ctx.strokeStyle = `rgba(247, 201, 72, ${(1 - dist / 140) * 0.08})`;
+                            ctx.lineWidth = 0.5;
                             ctx.stroke();
                         }
                     }
@@ -1078,7 +1182,9 @@
                 navLinks.classList.toggle('open');
             });
             navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => navLinks.classList.remove('open'));
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('open');
+                });
             });
             document.addEventListener('click', function(e) {
                 if (!navbar.contains(e.target)) navLinks.classList.remove('open');
@@ -1087,6 +1193,7 @@
             // ===== 访问人数 =====
             const liveEl = document.getElementById('liveCount');
             let countNum = 1286;
+
             function updateLive() {
                 const inc = Math.floor(Math.random() * 3) + 1;
                 countNum += inc;
@@ -1100,7 +1207,7 @@
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => {
+                resizeTimer = setTimeout(function() {
                     resize();
                     particles.forEach(p => {
                         p.x = Math.random() * w;
