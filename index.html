@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>联达信财税 · 专业财税服务</title>
+    <title>联达信财税 · 全行业财税服务</title>
     <style>
         /* ===== 全局 ===== */
         * {
@@ -156,11 +156,6 @@
             background: #ece8e0;
             border-radius: 2px;
             transition: all 0.3s;
-        }
-
-        /* ===== 顶部条 ===== */
-        .top-bar {
-            display: none;
         }
 
         /* ===== Hero ===== */
@@ -334,7 +329,7 @@
         }
         .section-header {
             text-align: center;
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto 52px;
         }
         .section-header .label {
@@ -369,47 +364,96 @@
             margin-top: 8px;
         }
 
-        /* ===== 服务产品 ===== */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
+        /* ===== 服务全覆盖 - 分类展示 ===== */
+        .service-category {
+            margin-bottom: 48px;
         }
-        .service-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(16px) saturate(1.4);
-            -webkit-backdrop-filter: blur(16px) saturate(1.4);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 20px;
-            padding: 32px 24px;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        .service-category:last-child {
+            margin-bottom: 0;
         }
-        .service-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(247, 201, 72, 0.12);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .service-card .icon {
-            font-size: 34px;
-            margin-bottom: 14px;
-            display: block;
-            background: linear-gradient(135deg, #F7C948, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .service-card h4 {
-            font-size: 18px;
+        .service-category .cat-title {
+            font-size: 20px;
             font-weight: 600;
             color: #fff;
-            margin-bottom: 6px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .service-card p {
+        .service-category .cat-title .gold {
+            color: #F7C948;
+        }
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .service-tag {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 30px;
+            padding: 8px 20px;
             font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+            cursor: default;
+        }
+        .service-tag:hover {
+            background: rgba(247, 201, 72, 0.05);
+            border-color: rgba(247, 201, 72, 0.15);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        .service-tag .icon {
+            margin-right: 6px;
+        }
+
+        /* 全行业覆盖标语 */
+        .coverage-badge {
+            text-align: center;
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(247, 201, 72, 0.04);
+            border: 1px dashed rgba(247, 201, 72, 0.15);
+            border-radius: 60px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 15px;
+            backdrop-filter: blur(8px);
+        }
+        .coverage-badge strong {
+            color: #F7C948;
+        }
+
+        /* ===== 合作单位 ===== */
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px 40px;
+            margin-top: 20px;
+        }
+        .partner-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 40px;
+            padding: 8px 20px 8px 16px;
+            transition: all 0.3s;
             color: rgba(255, 255, 255, 0.4);
-            line-height: 1.6;
+            font-size: 14px;
+        }
+        .partner-item:hover {
+            border-color: rgba(247, 201, 72, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .partner-item .icon {
+            font-size: 18px;
         }
 
         /* ===== 数据看板 ===== */
@@ -642,20 +686,21 @@
             .glass-card {
                 padding: 28px 20px;
             }
-            .services-grid {
-                grid-template-columns: 1fr 1fr;
-            }
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
             }
             .section {
                 padding: 50px 0;
             }
+            .service-tags {
+                gap: 8px;
+            }
+            .service-tag {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
         }
         @media (max-width: 480px) {
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -667,6 +712,13 @@
             .hero-actions .btn-secondary {
                 width: 100%;
                 justify-content: center;
+            }
+            .partners-grid {
+                gap: 12px;
+            }
+            .partner-item {
+                padding: 6px 14px;
+                font-size: 13px;
             }
         }
 
@@ -701,87 +753,152 @@
             <div class="container">
                 <div class="hero-grid">
                     <div class="hero-left">
-                        <div class="hero-badge">✦ 深圳市财政局核准 · 代理记账许可</div>
+                        <div class="hero-badge">✦ 全行业财税服务 · 一站式解决</div>
                         <h1 class="hero-title">
-                            专业财税 <span class="gold">服务</span><br />助力企业 <span class="gold">稳健成长</span>
+                            覆盖 <span class="gold">全行业</span><br />财税服务 <span class="gold">专家</span>
                         </h1>
                         <p class="hero-sub">
-                            公司注册 · 代理记账 · 出口退税 · 商标专利 · 资质许可 · 税务筹划<br />
-                            专注中小微企业，提供一站式财税解决方案。
+                            从工商注册到税务筹划，从初创企业到上市公司，我们提供全方位、定制化的财税解决方案。
+                            无论您身处哪个行业，我们都能精准承接。
                         </p>
                         <div class="hero-stats-mini">
                             <div class="item"><div class="number">7+</div><div class="label">行业经验</div></div>
                             <div class="item"><div class="number">1,600+</div><div class="label">服务企业</div></div>
-                            <div class="item"><div class="number">TSC5</div><div class="label">涉税信用评级</div></div>
+                            <div class="item"><div class="number">100+</div><div class="label">合作单位</div></div>
                         </div>
                         <div class="hero-actions">
                             <a href="#" class="btn-primary">📞 立即咨询</a>
-                            <a href="#services" class="btn-secondary">查看服务 →</a>
+                            <a href="#services" class="btn-secondary">探索服务 →</a>
                         </div>
                     </div>
                     <div class="hero-visual">
                         <div class="glass-card">
                             <div class="stat-row"><span class="stat-label">🏢 服务企业</span><span class="stat-value">1,600<span class="gold">+</span></span></div>
+                            <div class="stat-row"><span class="stat-label">🤝 合作单位</span><span class="stat-value">100<span class="gold">+</span></span></div>
                             <div class="stat-row"><span class="stat-label">⭐ TSC评级</span><span class="stat-value"><span class="gold">TSC5</span> <span class="stat-tag">最高级</span></span></div>
-                            <div class="stat-row"><span class="stat-label">📅 成立年限</span><span class="stat-value">2018 <span class="gold">至今</span></span></div>
-                            <div class="stat-row"><span class="stat-label">👥 团队经验</span><span class="stat-value">10<span class="gold">年+</span></span></div>
-                            <div class="stat-row" style="border-bottom:none;"><span class="stat-label">🏆 TSC5连续</span><span class="stat-value" style="font-size:17px;"><span class="gold">2022-2025</span> 四年</span></div>
+                            <div class="stat-row"><span class="stat-label">🏆 连续四年</span><span class="stat-value" style="font-size:17px;"><span class="gold">2022-2025</span> TSC5</span></div>
+                            <div class="stat-row" style="border-bottom:none;"><span class="stat-label">📋 服务范围</span><span class="stat-value" style="font-size:16px;">全行业 <span class="gold">全覆盖</span></span></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 服务产品 -->
+        <!-- 服务板块 - 全行业覆盖 -->
         <section class="section" id="services">
             <div class="container">
                 <div class="section-header">
-                    <div class="label">✦ 服务产品</div>
-                    <h2>覆盖企业全生命周期的 <span class="gold">财税服务</span></h2>
-                    <p>从初创到成熟，我们提供专业、合规、高效的解决方案</p>
+                    <div class="label">✦ 全行业服务</div>
+                    <h2>任何行业，<span class="gold">任何事项</span>，我们都能承接</h2>
+                    <p>覆盖工商、财税、知识产权、资质许可、金融服务等全维度，满足企业全生命周期需求</p>
                 </div>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <span class="icon">🏢</span>
-                        <h4>公司注册</h4>
-                        <p>内资外资企业设立、变更、注销，股权架构设计</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">📊</span>
-                        <h4>代理记账</h4>
-                        <p>建账记账、纳税申报、一般纳税人认定、财务咨询</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">✈️</span>
-                        <h4>出口退税</h4>
-                        <p>进出口退税申报、首单退税辅导、退税筹划</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">🛡️</span>
-                        <h4>资质许可</h4>
-                        <p>食品经营许可、卫生许可、餐饮食品证办理</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">™️</span>
-                        <h4>商标专利</h4>
-                        <p>商标注册、商标设计、版权代理、图案设计</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">📈</span>
-                        <h4>税务筹划</h4>
-                        <p>税务咨询、税收筹划、财务管理咨询</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">💼</span>
-                        <h4>股权服务</h4>
-                        <p>股权转让、股权架构设计、企业迁出迁入</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="icon">💡</span>
-                        <h4>创业补贴</h4>
-                        <p>创业补贴申请、政策解读、材料辅导</p>
+
+                <!-- 分类1：工商服务 -->
+                <div class="service-category">
+                    <div class="cat-title">🏢 工商服务</div>
+                    <div class="service-tags">
+                        <span class="service-tag">公司注册</span>
+                        <span class="service-tag">分公司设立</span>
+                        <span class="service-tag">外资注册</span>
+                        <span class="service-tag">公司变更</span>
+                        <span class="service-tag">公司注销</span>
+                        <span class="service-tag">股权转让</span>
+                        <span class="service-tag">企业迁址</span>
+                        <span class="service-tag">工商年报</span>
+                        <span class="service-tag">刻章备案</span>
                     </div>
                 </div>
+
+                <!-- 分类2：财税服务 -->
+                <div class="service-category">
+                    <div class="cat-title">📊 财税服务</div>
+                    <div class="service-tags">
+                        <span class="service-tag">代理记账</span>
+                        <span class="service-tag">纳税申报</span>
+                        <span class="service-tag">一般纳税人认定</span>
+                        <span class="service-tag">出口退税</span>
+                        <span class="service-tag">税务筹划</span>
+                        <span class="service-tag">税务咨询</span>
+                        <span class="service-tag">财务外包</span>
+                        <span class="service-tag">内控审计</span>
+                        <span class="service-tag">汇算清缴</span>
+                        <span class="service-tag">个税筹划</span>
+                    </div>
+                </div>
+
+                <!-- 分类3：知识产权 -->
+                <div class="service-category">
+                    <div class="cat-title">™️ 知识产权</div>
+                    <div class="service-tags">
+                        <span class="service-tag">商标注册</span>
+                        <span class="service-tag">商标转让</span>
+                        <span class="service-tag">商标续展</span>
+                        <span class="service-tag">版权登记</span>
+                        <span class="service-tag">软件著作权</span>
+                        <span class="service-tag">专利申请</span>
+                        <span class="service-tag">专利转让</span>
+                        <span class="service-tag">知识产权维权</span>
+                    </div>
+                </div>
+
+                <!-- 分类4：资质许可 -->
+                <div class="service-category">
+                    <div class="cat-title">🛡️ 资质许可</div>
+                    <div class="service-tags">
+                        <span class="service-tag">食品经营许可</span>
+                        <span class="service-tag">卫生许可</span>
+                        <span class="service-tag">餐饮服务许可</span>
+                        <span class="service-tag">医疗器械许可</span>
+                        <span class="service-tag">道路运输许可</span>
+                        <span class="service-tag">进出口权</span>
+                        <span class="service-tag">建筑资质</span>
+                        <span class="service-tag">办学许可</span>
+                        <span class="service-tag">人力资源许可</span>
+                    </div>
+                </div>
+
+                <!-- 分类5：金融服务 -->
+                <div class="service-category">
+                    <div class="cat-title">💰 金融及专项服务</div>
+                    <div class="service-tags">
+                        <span class="service-tag">创业补贴申请</span>
+                        <span class="service-tag">高新认定</span>
+                        <span class="service-tag">双软认证</span>
+                        <span class="service-tag">ISO体系认证</span>
+                        <span class="service-tag">企业信用评级</span>
+                        <span class="service-tag">审计报告</span>
+                        <span class="service-tag">资产评估</span>
+                        <span class="service-tag">上市辅导</span>
+                    </div>
+                </div>
+
+                <!-- 全行业覆盖声明 -->
+                <div class="coverage-badge">
+                    <strong>✦ 覆盖全行业：</strong> 科技、电商、制造、贸易、餐饮、教育、医疗、建筑、金融、物流、文化创意…… 任何行业，我们都专业应对。
+                </div>
+            </div>
+        </section>
+
+        <!-- 合作单位展示 -->
+        <section class="section" style="padding-top:0;">
+            <div class="container">
+                <div class="section-header">
+                    <div class="label">🤝 合作网络</div>
+                    <h2>与 <span class="gold">上百家</span> 单位深度合作</h2>
+                    <p>覆盖政府机构、行业协会、产业园区、金融服务机构等，构建强大的服务生态</p>
+                </div>
+                <div class="partners-grid">
+                    <div class="partner-item"><span class="icon">🏛️</span> 龙岗区行政服务大厅</div>
+                    <div class="partner-item"><span class="icon">🏢</span> 深圳市财税服务行业协会</div>
+                    <div class="partner-item"><span class="icon">🏭</span> 天安云谷产业园</div>
+                    <div class="partner-item"><span class="icon">🏬</span> 星河WORLD</div>
+                    <div class="partner-item"><span class="icon">🏦</span> 中国银行龙岗支行</div>
+                    <div class="partner-item"><span class="icon">🏦</span> 招商银行深圳分行</div>
+                    <div class="partner-item"><span class="icon">📈</span> 前海股权交易中心</div>
+                    <div class="partner-item"><span class="icon">📋</span> 多家会计师事务所</div>
+                    <div class="partner-item"><span class="icon">⚖️</span> 知名律师事务所</div>
+                </div>
+                <p style="text-align:center;margin-top:24px;color:rgba(255,255,255,0.2);font-size:14px;">—— 以上仅为部分代表，更多合作伙伴持续拓展中 ——</p>
             </div>
         </section>
 
@@ -789,15 +906,15 @@
         <section class="section" style="padding-top:0;">
             <div class="container">
                 <div class="section-header">
-                    <div class="label">📊 数据说话</div>
-                    <h2>用 <span class="gold">实力</span> 赢得信赖</h2>
-                    <p>每一个数字都来自真实的业务沉淀</p>
+                    <div class="label">📊 实力数据</div>
+                    <h2>用 <span class="gold">数字</span> 见证专业</h2>
+                    <p>多年深耕，赢得众多企业信赖</p>
                 </div>
                 <div class="stats-grid">
-                    <div class="stat-card"><div class="number">1,600+</div><div class="label">服务企业总数</div></div>
-                    <div class="stat-card"><div class="number">7年</div><div class="label">行业深耕</div></div>
-                    <div class="stat-card"><div class="number">TSC5</div><div class="label">涉税信用评级（最高级）</div></div>
-                    <div class="stat-card"><div class="number">10年+</div><div class="label">主管团队经验</div></div>
+                    <div class="stat-card"><div class="number">1,600+</div><div class="label">服务企业</div></div>
+                    <div class="stat-card"><div class="number">100+</div><div class="label">合作单位</div></div>
+                    <div class="stat-card"><div class="number">7年</div><div class="label">行业经验</div></div>
+                    <div class="stat-card"><div class="number">TSC5</div><div class="label">连续四年最高信用</div></div>
                     <div class="stat-card"><div class="number">451</div><div class="label">信用积分</div></div>
                     <div class="stat-card"><div class="number">100%</div><div class="label">客户满意度</div></div>
                 </div>
@@ -811,19 +928,19 @@
                     <div class="about-text">
                         <h3>关于 <span class="gold">联达信财税</span></h3>
                         <p>
-                            <strong>深圳联达信财税代理有限公司</strong> 成立于2018年3月，是经深圳市市场监督管理局批准、深圳市财政局核发《代理记账业务许可证》的专业财税服务机构。
+                            <strong>深圳联达信财税代理有限公司</strong> 成立于2018年，是经深圳市财政局核准的专业财税服务机构。公司立足龙岗，服务全深圳，辐射大湾区。
                         </p>
                         <p>
-                            公司总部位于深圳市龙岗区，设有市场部及代账部，从业人员均拥有两年以上行业经验及相应会计职称，主管人员财税工作经验10年以上。
+                            我们拥有一支经验丰富的专业团队，主管人员财税经验超过10年。公司连续四年（2022-2025）被深圳市税务局评为 <strong>TSC5级</strong> 涉税专业服务机构（最高等级），信用积分451分。
                         </p>
                         <p>
-                            <strong>2022至2025年，公司连续四年被深圳市税务局评为 TSC5级 涉税专业服务机构</strong>（最高等级），信用积分451分。截至2025年，累计服务企业超过1,600户，客户满意度100%。
+                            截至目前，我们已累计服务企业超过 <strong>1,600</strong> 家，与 <strong>上百家</strong> 政府机构、产业园区、金融机构等建立了深度合作关系。我们深知每一个行业都有其独特的财税痛点，因此我们坚持“全行业覆盖、定制化服务”的理念，无论是科技、制造、贸易还是服务行业，我们都能精准匹配解决方案。
                         </p>
                         <div class="about-tags">
                             <span>✓ 成立7年</span>
                             <span>✓ 服务1,600+企业</span>
                             <span>✓ TSC5级（2022-2025连续四年）</span>
-                            <span>✓ 团队10年+经验</span>
+                            <span>✓ 100+合作单位</span>
                         </div>
                     </div>
                     <div class="about-image">
@@ -839,7 +956,7 @@
                 <div class="section-header">
                     <div class="label">📬 联系</div>
                     <h2>让我们 <span class="gold">聊聊</span> 您的需求</h2>
-                    <p>专业顾问为您提供一对一服务</p>
+                    <p>专业顾问为您提供一对一服务，任何行业、任何事项，我们随时待命</p>
                 </div>
                 <div class="contact-grid">
                     <div class="contact-item">
@@ -883,7 +1000,7 @@
                     <a href="#">隐私政策</a> &nbsp;·&nbsp; <a href="#">服务条款</a>
                 </p>
                 <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.06);">
-                      专业 · 诚信 · 高效
+                    粤ICP备XXXXXXXX号 · 全行业财税服务专家
                 </p>
             </div>
         </footer>
@@ -927,7 +1044,6 @@
                     ctx.fillStyle = `rgba(247, 201, 72, ${p.a})`;
                     ctx.fill();
                 });
-                // 连线
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
@@ -947,7 +1063,7 @@
             }
             draw();
 
-            // ===== 导航滚动效果 =====
+            // ===== 导航滚动 =====
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 20) navbar.classList.add('scrolled');
@@ -968,7 +1084,7 @@
                 if (!navbar.contains(e.target)) navLinks.classList.remove('open');
             });
 
-            // ===== 访问人数计数器 =====
+            // ===== 访问人数 =====
             const liveEl = document.getElementById('liveCount');
             let countNum = 1286;
             function updateLive() {
@@ -980,7 +1096,7 @@
             }
             setTimeout(updateLive, 1000);
 
-            // ===== 窗口尺寸变化重绘粒子 =====
+            // ===== 窗口resize =====
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
@@ -995,5 +1111,6 @@
 
         })();
     </script>
+
 </body>
 </html>
